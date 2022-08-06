@@ -1,0 +1,22 @@
+.search-results{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 600px;
+    min-height: 160px;
+    background-color: #195190;
+    padding: 10px;
+    border-radius: 2px;
+}
+
+
+.content{
+    height: 150px;
+    width: 110px;
+    display: flex;
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+}
+
+

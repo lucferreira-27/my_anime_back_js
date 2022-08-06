@@ -1,0 +1,58 @@
+
+input[type="radio"] {
+    margin-top: 2px;
+    vertical-align: middle;
+    height:10px; 
+    width:10px;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-area{
+  flex-direction: column;
+  display: flex;
+}
+
+.filters{
+    align-self: end;
+    font-family: Arial, Helvetica, sans-serif;
+    left: 50px;
+    margin-bottom: 10px;
+    margin-right: 50px;
+}
+.filters label{
+    font-size: 10px;
+    margin: 3px;
+}
+
+.search-bar{
+    margin: 10px;
+}
+
+.search-bar-area{
+  display: flex;
+  flex-wrap: wrap;
+
+}
+
+.search-bar input[type="text"]{
+    outline: none;
+    height: 30px;
+    border: 1px solid black;
+    border-radius: 15px;
+    width: 65vh;
+}
+.search-bar:focus{
+    border: 1px solid gray;
+}
+
+.search-bar input[type="text"]
+{
+    font-size:16px;
+    text-indent: 10px;
+}

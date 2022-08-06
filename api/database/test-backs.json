@@ -1,0 +1,68 @@
+[
+    {
+        "start_date": "2008-01-01",
+        "end_date": "2022-07-13",
+        "title": {
+            "name": "Berserk",
+            "members": 555374,
+            "score": 9.46,
+            "favorites": 104557,
+            "score_users": 271204,
+            "ranked_position": 10,
+            "popularity_position": 23,
+            "image_url": "https://cdn.myanimelist.net/images/manga/1/157897.jpg",
+            "mal_url": "https://myanimelist.net/manga/2/Berserk"
+        },
+        "rate": {
+            "members_rate": 0.53,
+            "score_rate": 0.53,
+            "ranked_position_rate": 4,
+            "popularity_position_rate": 12,
+            "favorites_rate": 0.25
+        }
+    },
+    {
+        "start_date": "2008-01-01",
+        "end_date": "2022-07-13",
+        "title": {
+            "name": "Fullmetal Alchemist: Brotherhood",
+            "members": 555374,
+            "score": 9.13,
+            "favorites": 104557,
+            "score_users": 271204,
+            "ranked_position": 1,
+            "popularity_position": 2,
+            "image_url": "https://myanimelist.net/anime/5114/Fullmetal_Alchemist__Brotherhood",
+            "mal_url": "https://cdn.myanimelist.net/images/anime/1223/96541.jpg"
+        },
+        "rate": {
+            "members_rate": 0.53,
+            "score_rate": 0.53,
+            "ranked_position_rate": 4,
+            "popularity_position_rate": 12,
+            "favorites_rate": 0.25
+        }
+    },
+    {
+        "start_date": "2008-01-01",
+        "end_date": "2022-07-13",
+        "title": {
+            "name": "Vinland Saga",
+            "members": 235911,
+            "score": 8.99,
+            "favorites": 104557,
+            "score_users": 271204,
+            "ranked_position": 1,
+            "popularity_position": 2,
+            "image_url": "https://cdn.myanimelist.net/images/manga/1/157897.jpg",
+            "mal_url": "https://cdn.myanimelist.net/images/manga/2/188925.jpg"
+        },
+        "rate": {
+            "members_rate": 0.53,
+            "score_rate": 0.53,
+            "ranked_position_rate": 4,
+            "popularity_position_rate": 12,
+            "favorites_rate": 0.25
+        }
+    }
+]
