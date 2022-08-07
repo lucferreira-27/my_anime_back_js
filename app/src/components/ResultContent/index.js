@@ -5,7 +5,7 @@ const ResultContent = ({content, onLoad}) => {
     const [isLoaded, setLoaded] = useState(false)
     const imgLoaded = (img) =>{
         setLoaded(true)
-        onLoad()
+        onLoad(img)
     }
     return (
         <div className={`c-container ${isLoaded && 'visible'}`}>

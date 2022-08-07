@@ -16,20 +16,20 @@ const SearchBar = () => {
     }
 
     const search = async () =>{
+        console.log(searchTerm)
         const url = `http://localhost:9000/search?q=${searchTerm}&category=${category}`
         setSearching(true)
         let response = await fetch(url)
         let json = await response.json()
         setContent(json)
     }
-
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
-          console.log(searchTerm)
           if(searchTerm.length){
-            setSearching(false)
             search()
+            return
           } 
+          setSearching(false)
         }, 500)
     
         return () => {
@@ -52,7 +52,7 @@ const SearchBar = () => {
                         <Loading isSearching={isSearching}/>
                     </span>
                 </div>
-                {(content) && <SearchResults setSearching= {setSearching} contents = {content.slice(0,5)}/>} 
+                {(content) && <SearchResults isSearching = {isSearching} setSearching= {setSearching} contents = {content.slice(0,5)}/>} 
             </form>
 
         </div>
