@@ -23,6 +23,9 @@ const SearchBar = () => {
         let json = await response.json()
         setContent(json)
     }
+
+
+
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
           if(searchTerm.length){
@@ -35,7 +38,7 @@ const SearchBar = () => {
         return () => {
             clearTimeout(delayDebounceFn)
         }
-      }, [searchTerm])
+      }, [searchTerm,category])
 
     return (
         <div className='container'>
