@@ -1,0 +1,16 @@
+.sign{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.sign h3{
+    background-color: #195190;
+    color: white;
+    width: 30%;
+    font-weight: normal;
+    padding: 2px 30px 2px;
+    border-radius: 3px;
+    font-size: 26px;
+    text-align: center;
+}

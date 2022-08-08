@@ -1,0 +1,113 @@
+
+a, a:hover, a:focus, a:active {
+    text-decoration: none;
+    color: inherit;
+}
+
+.preview-backs {
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.preview-backs .back {
+    width: 390px;
+    height: 210px;
+    border: 1px solid black;
+    margin: 10px;
+    border-radius: 3px;
+}
+
+.preview-container {
+    height: 100%;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.preview-img {
+    object-fit: cover;
+    margin-top: 10px;
+    height: 154px;
+    width: 110px;
+    margin-left: 10px;
+    border-radius: 3px;
+    box-shadow: 0 6px 4px -4px black;
+}
+
+.preview-content {
+    min-width: 50%;
+    margin-left: 35px;
+    margin-right: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.preview-content .p-title {
+    color: white;
+    font-size: 18px;
+    white-space: nowrap;
+    max-width: 250px;
+    text-overflow: ellipsis;
+    overflow: hidden; 
+    white-space: nowrap;
+
+}
+
+.preview-content .p-date {
+    color: white;
+    font-size: 13px;
+    font-weight: normal;
+    background-color: #AB2E33;
+    padding: 2px;
+    border: solid 1px white;
+}
+
+.preview-content .mal-link {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    color: white;
+    font-family: 'AGRevueCyr-Roman', sans-serif;
+    font-size: 16px;
+}
+
+.preview-content .mal-link:hover {
+    color: #195190;
+    font-family: 'AGRevueCyr-Roman', sans-serif;
+}
+
+.preview-content .info {
+    color: white;
+    font-size: 13px;
+    align-self: flex-start;
+}
+
+.preview-content .info .rate-negative {
+    color: #CB1212;
+    font-size: 12px;
+}
+
+.preview-content .info .rate-positive {
+    color: #1ED250;
+    font-size: 12px;
+}
+
+.preview-content .show-more {
+    background-color: #195190;
+    margin: 8px;
+    padding: 1px 25px;
+    border-radius: 15px;
+    color: white;
+    font-size: 13px;
+}
+
+.preview-content .show-more:hover {
+    background-color: #AB2E33;
+    cursor: pointer;
+}

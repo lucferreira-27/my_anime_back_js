@@ -22,6 +22,9 @@
     position: relative;
     justify-content: flex-end;
 }
+.c-container:hover{
+    cursor: pointer;
+}
 
 .visible{
     opacity: 1;

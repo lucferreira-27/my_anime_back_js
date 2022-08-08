@@ -45,9 +45,9 @@ const SearchBar = () => {
             <form className='container search-bar'>
                 <div className='input-area'>
                     <div className='filters'>
-                        <label for='anime'>Anime</label>
+                        <label htmlFor='anime'>Anime</label>
                         <input type={"radio"} name={'anime'} checked={category === 'anime' && 'checked'} onChange={e => handleCategory(e)}/>
-                        <label for='manga'>Manga</label>
+                        <label htmlFor='manga'>Manga</label>
                         <input type={"radio"} name={'manga'} checked={category === 'manga' && 'checked'} onChange={e => handleCategory(e)}/>
                     </div>
                     <span className='search-bar-area'>

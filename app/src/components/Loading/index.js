@@ -4,11 +4,11 @@ import './index.css';
 const Loading = ({isSearching}) => {
     return (
         <div className='loading'>
-            <div class="chat-bubble">
-                <div class="typing">
-                    <div class={`dot ${isSearching && 'animation'}`}></div>
-                    <div class={`dot ${isSearching && 'animation'}`}></div>
-                    <div class={`dot ${isSearching && 'animation'}`}></div>
+            <div className="chat-bubble">
+                <div className="typing">
+                    <div className={`dot ${isSearching && 'animation'}`}></div>
+                    <div className={`dot ${isSearching && 'animation'}`}></div>
+                    <div className={`dot ${isSearching && 'animation'}`}></div>
                 </div>
             </div>
         </div>
