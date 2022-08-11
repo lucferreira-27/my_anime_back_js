@@ -14,6 +14,7 @@
     "dotenv": "^16.0.1",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
+    "jsdom": "^20.0.0",
     "media-typer": "^1.1.0",
     "morgan": "~1.9.1",
     "sequelize": "^6.21.3",

@@ -11,7 +11,11 @@
             "ranked_position": 10,
             "popularity_position": 23,
             "image_url": "https://cdn.myanimelist.net/images/manga/1/157897.jpg",
-            "mal_url": "https://myanimelist.net/manga/2/Berserk"
+            "mal_url": "https://myanimelist.net/manga/2/Berserk",
+            "type": "manga",
+            "media_type": "Manga",
+            "start_year": 1999,
+            "status": "Currently Airing"
         },
         "rate": {
             "members_rate": 0.53,
@@ -32,8 +36,12 @@
             "score_users": 271204,
             "ranked_position": 1,
             "popularity_position": 2,
-            "image_url": "https://myanimelist.net/anime/5114/Fullmetal_Alchemist__Brotherhood",
-            "mal_url": "https://cdn.myanimelist.net/images/anime/1223/96541.jpg"
+            "image_url": "https://cdn.myanimelist.net/images/anime/1223/96541.jpg",
+            "mal_url": "https://myanimelist.net/anime/5114/Fullmetal_Alchemist__Brotherhood",
+            "type": "anime",
+            "media_type": "TV",
+            "start_year": 2005,
+            "status": "Finished Airing"
         },
         "rate": {
             "members_rate": 0.53,
@@ -54,11 +62,15 @@
             "score_users": 271204,
             "ranked_position": 1,
             "popularity_position": 2,
-            "image_url": "https://cdn.myanimelist.net/images/manga/1/157897.jpg",
-            "mal_url": "https://cdn.myanimelist.net/images/manga/2/188925.jpg"
+            "image_url": "https://cdn.myanimelist.net/images/manga/2/188925.jpg",
+            "mal_url": "https://myanimelist.net/manga/642/Vinland_Saga",
+            "type": "manga",
+            "media_type": "Manga",
+            "start_year": 2012,
+            "status": "Finished Airing"
         },
         "rate": {
-            "members_rate": 0.53,
+            "members_rate": -0.53,
             "score_rate": 0.53,
             "ranked_position_rate": 4,
             "popularity_position_rate": 12,

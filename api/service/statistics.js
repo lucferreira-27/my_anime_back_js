@@ -1,53 +1,86 @@
 
 const axios = require('axios').default;
 const cheerio = require('cheerio');
+const { JSDOM } = require("jsdom");
 
 
-const scrape = async (url) =>{
-    console.log(url)
+const scrape = async (url) => {
     const shortUrl = url.match(/(?<=myanimelist\.net).*/g)
 
     console.log(`[Scrape] GET from  (${shortUrl})`)
-    const {data: body} = await axios.get(url)
+    const { data: body } = await axios.get(url)
     console.log(`[Scrape] Loading cheerio ... (${shortUrl})`)
     const $ = cheerio.load(body);
-    const infos = [`score`,`ranked`,`popularity`,`members`,`favorites`]
-    const statistics = []
-    console.log(`[Scrape] Scraping html ... (${shortUrl})`)
-    $('span.dark_text').each(function (i, elem) {
-        let text = $(this).text().replace(`:`,``).toLocaleLowerCase().trim()
-        try{
-            if(!infos.includes(text)) return
-            let info = $(this).parent().text();
-            let found = info.match(/\d+\.?,?\d+|#\d+/g)
-            statistics[text] = found[0]    
-        }catch(e){
-            console.log(`[Scrape] Error on collecting ${text} (${shortUrl})`)
-        }
-    });
+    const { document } = (new JSDOM(body)).window;
+    const texts = [`aired`, `status`, `popularity`, `ranked`, `members`, `favorites`]
+    const values = []
+    const erros = []
 
-    const notifyErros = () =>{
-        const totalErros = Object.values(infos).filter(value =>{
-            if(!Object.keys(statistics).find((key => value == key))){
-                console.log(`[Scrape] Error key: ${value} is undefine! (${shortUrl})`)
-                return true
+    const getValue = (text,value) =>{
+        const getAiredValue = (airedValues) =>{
+            const values = []
+            const getDates = (value) =>{
+                let match = value.match(/([a-zA-z]{3,5})|(\d{1,2}(?=,))|(\d{4})/g)
+                let start = match.splice(0, 3)
+                let end = match
+                return {start, end}
             }
-            return false
-        })
-        if(Object.keys(statistics).length  == 0){
-            console.log(`[Scrape] Failed! ${shortUrl}`)
-            throw Error(`Scrape failed because desired data was not found! (${shortUrl})`)
-         }
-        if(totalErros.length > 0){
-            console.log(`[Scrape] Scrape has erros, but successed (${shortUrl})`)
-            console.log(`[Scrape] Done! (${shortUrl})` )
-            return {statistics: Object.assign({containsErros: true},statistics)}
+            let {start,end} = getDates(airedValues)
+            values.push({ text: "start_year", value: start[2] })
+            values.push({ text: "end_year", value: end[2] })
+            values.push({ text: "start_date", value: new Date(start) })
+            values.push({ text: "end_date", value: new Date(end) })
+            console.log(...values)
+            return values
         }
-        console.log(`[Scrape] Done! (${shortUrl})`)
-        return {statistics: Object.assign({containsErros: false},statistics)}
+        const getRankedValue = (value) =>{
+            return { text: 'ranked', value: value.match(/#\d+/g)[0] }
+    
+        }
+        if (text == "aired") {
+            return getAiredValue(value)
+        }
+        if (text == 'ranked') {
+            return getRankedValue(value)
+        }
+        return { text, value }
+
+    }
+    const getScoreValues = () =>{
+        let values = []
+        const selectors = ['span[itemprop="ratingValue"]', 'span[itemprop="ratingCount"]']
+        let scoreValues = selectors.map(selector => document.querySelector(selector).textContent)
+        values.push({ text: 'scoreValue', value: scoreValues[0] },
+        { text: 'scoreCount', value: scoreValues[1] })
+        return values
+    }
+    const toObject = (values) =>{
+        const tmp = []
+        values.forEach(({ text, value }) => {
+            tmp[text] = value
+        })
+        return Object.assign({}, tmp)
     }
 
-    return notifyErros()
-}
 
+    document.querySelectorAll('.spaceit_pad .dark_text').forEach((el) => {
+        let originalText = el.textContent
+        let text = originalText.replace(':', ``).toLocaleLowerCase().trim()
+        try {
+            if (!texts.includes(text)) return
+            let elContent = el.parentElement.textContent.replace(originalText, "").trim()
+            let value = getValue(text,elContent)
+            if(Array.isArray(value))
+               return values.push(...value || value)
+            return values.push(value)
+
+        } catch (e) {
+            console.log(`[Scrape] Error on collecting ${text} (${shortUrl})`)
+            erros.push(text)
+        }
+    })
+
+    values.push(...getScoreValues()) 
+    return {statistics: toObject(values)}
+}
 module.exports = scrape

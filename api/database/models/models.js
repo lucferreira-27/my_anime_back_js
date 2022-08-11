@@ -66,6 +66,10 @@ const Title = db.define("title", {
     type: Sequelize.STRING,
     allowNull: false,
   },
+  type:{
+    type: Sequelize.STRING,
+    allowNull: false,
+  }
 },{
   timestamps: false,
   createdAt: false,
