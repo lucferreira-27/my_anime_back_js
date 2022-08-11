@@ -1,19 +1,17 @@
 
 import { useEffect, useState } from 'react';
 import './index.css';
-const ResultContent = ({content, onLoad}) => {
+const ResultContent = ({content, onLoad, onClick}) => {
     const [isLoaded, setLoaded] = useState(false)
     const imgLoaded = (img) =>{
         setLoaded(true)
         onLoad(img)
     }
     return (
-        <div className={`c-container ${isLoaded && 'visible'}`}>
+        <div className={`c-container ${isLoaded && 'visible'}`} onClick={onClick}>
             <img className={`content`} src={content.image_url} onLoad={({target}) => imgLoaded(target)}></img>
             <div className='text year'>{content.payload.start_year}</div>
             <div className='text title'>{content.name.substring(0,50)}</div>
-
-
         </div>
     )
 

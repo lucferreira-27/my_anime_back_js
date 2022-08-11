@@ -1,10 +1,10 @@
 
 import './index.css';
-const Header = () =>{
+const Header = ({onClick}) =>{
     return (
         <header>
             <div className='main-header'>
-                <h1 className="logo">MyAnime<span className='back'>Back</span></h1>
+                <h1 className="logo"><span onClick={() => onClick(true)}>MyAnime<span className='back'>Back</span></span></h1>
             </div>
         </header>
     )

@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import ResultContent from '../ResultContent';
 import './index.css';
-const SearchResults = ({contents, isSearching,setSearching}) => {
+const SearchResults = ({contents, isSearching,setSearching, onClick}) => {
     const isImageCache = (src) =>{
         let img = new Image()
         img.src = src
@@ -25,7 +25,7 @@ const SearchResults = ({contents, isSearching,setSearching}) => {
 
     return (
         <div className='search-results'>
-               {contents.map(content => <ResultContent content={content} key={content.id} onLoad={() => onload()}/>)}
+               {contents.map(content => <ResultContent content={content} key={content.id} onLoad={onload} onClick={() => onClick({type: "search-bar",content})}/>)}
         </div>
     )
 

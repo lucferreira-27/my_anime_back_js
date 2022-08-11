@@ -1,0 +1,66 @@
+.lds-dual-ring {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+}
+
+.lds-dual-ring:after {
+    content: " ";
+    display: block;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 6px solid #fff;
+    border-color: #fff transparent #fff;
+    animation: lds-dual-ring 1.2s linear infinite;
+}
+
+@keyframes lds-dual-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-area{
+    margin: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.loading-area p{
+    width: 200px;
+    margin: 20px;
+    color: #fff;
+    border-radius: 5px;
+    background-color: #195190;
+    padding: 3px 20px;
+}
+
+.loading-area p::after{
+    
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: bottom;
+    -webkit-animation: ellipsis steps(5,end) 1100ms infinite;      
+    animation: ellipsis steps(5,end) 1100ms infinite;
+    content: "\2026"; /* ascii code for the ellipsis character */
+    width: 0px;
+  }
+  
+  @keyframes ellipsis {
+    to {
+      width: 20px;    
+    }
+  }
+  
+  @-webkit-keyframes ellipsis {
+    to {
+      width: 20px;    
+    }
+  }

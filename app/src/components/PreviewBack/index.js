@@ -2,7 +2,7 @@
 import './index.css';
 import { BiUpArrowAlt,BiDownArrowAlt } from 'react-icons/bi';
 
-const PreviewBack = ({ back }) => {
+const PreviewBack = ({ back,onClick }) => {
     const backStyle = {
         backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url(${back.title.image_url})`,
         backgroundSize: 'cover',
@@ -56,7 +56,7 @@ const PreviewBack = ({ back }) => {
                     <ul className='info'>
                         {getInfos()}
                     </ul>
-                    <a className='show-more'>Show More</a>
+                    <a className='show-more' onClick={() => onClick({type:"recent-back",content:{back}})}>Show More</a>
                 </div>
             </div>
 

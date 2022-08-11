@@ -1,0 +1,168 @@
+
+a, a:hover, a:focus, .mal-link:active {
+    text-decoration: none;
+    color: #fff;
+}
+
+.setup-area {
+    display: flex;
+    justify-content: center;
+    height: 600px;
+}
+
+.setup-info {
+    margin-top: 50px;
+    display: flex;
+    align-self: start;
+    height: 75%;
+    width: 75%;
+    border-radius: 5px;
+    position: relative;
+}
+
+
+
+
+.setup-info::after {
+    -webkit-backdrop-filter: blur(5px);
+    /* Use for Safari 9+, Edge 17+ (not a mistake) and iOS Safari 9.2+ */
+    backdrop-filter: blur(5px);
+    /* Supported in Chrome 76 */
+
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+}
+
+
+.setup-content{
+    flex-wrap: wrap;
+    margin-top: 25px;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
+
+
+.statistics-area{
+    width: 900px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.statistics-area h4{
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    font-size: 36px;
+}
+.statistics-area .infos{
+    margin: 20px;
+    width: 90%;
+    height: 115px;
+    display: flex;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.35);
+}
+
+
+.statistics-area .infos .score{
+    color: #fff;
+    text-align: center;
+    margin: 5px;
+    padding: 5px 20px;
+    transition: background-color 0.2s ease-in-out;
+
+}
+.statistics-area .infos .score:hover{
+    background-color: rgba(0, 0, 0, 0.35);
+    outline: 1px solid #fff;
+
+}
+.statistics-area .infos .score span{
+    font-size: 12px;
+    font-weight: lighter
+}
+.statistics-area .infos .score p{
+    font-size: 24px;
+    font-weight: bolder;
+}
+.statistics-area .infos .members{
+    font-size: 30px;
+    color: #fff;
+    text-align: center;
+    align-self: center;
+    margin: 5px;
+    padding: 5px;
+    width: 50%;
+    transition: background-color 0.2s ease-in-out;
+
+}
+.statistics-area .infos .members p{
+    font-size: 36px;
+    font-weight: bolder;
+}
+.statistics-area .infos .members:hover{
+    background-color: rgba(0, 0, 0, 0.35);
+    outline: 1px solid #fff;
+
+}
+
+.statistics-area .infos .ranks{
+    font-size: 22px;
+    color: #fff;
+    text-align: center;
+    align-self: center;
+    margin: 5px;
+    padding: 5px;
+    width: 50%;
+    transition: background-color 0.2s ease-in-out;
+
+}
+.statistics-area .infos .ranks span{
+    font-weight: bolder;
+}
+.statistics-area .infos .ranks div:hover{
+    background-color: rgba(0, 0, 0, 0.35);
+    outline: 1px solid #fff;
+}
+.mal-link{
+    text-decoration: none;
+    margin: 5px;
+    align-self: center;
+    color: white;
+    font-family: 'AGRevueCyr-Roman', sans-serif;
+    font-size: 24px;
+}
+.mal-link:hover {
+    color: #195190;
+    font-family: 'AGRevueCyr-Roman', sans-serif;
+    cursor: pointer;
+
+}
+
+.simple-info p{
+    text-align: end;
+    color: #fff;
+    font-weight: lighter;
+}
+
+img.setup-img{
+    object-fit: cover;
+    margin-top: 50px;
+    margin-left: 50px;
+    height: 280px;
+    width: 190px;
+    border-radius: 3px;
+    box-shadow: 0 6px 4px -4px black;
+
+}
+

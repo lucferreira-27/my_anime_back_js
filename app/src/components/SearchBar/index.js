@@ -1,9 +1,9 @@
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './index.css';
 import Loading from '../Loading'
 import SearchResults from '../SearchResult'
-const SearchBar = () => {
+const SearchBar = ({onClick}) => {
     const [isSearching, setSearching] = useState(false)
     const [searchTerm, setTxtSearch] = useState('')
     const [category, setCategory] = useState('anime')
@@ -14,6 +14,7 @@ const SearchBar = () => {
     const handleCategory=(e)=>{
         setCategory(e.target.name)
     }
+    const textInput = useRef()
 
     const search = async () =>{
         console.log(searchTerm)
@@ -22,6 +23,13 @@ const SearchBar = () => {
         let response = await fetch(url)
         let json = await response.json()
         setContent(json)
+    }
+    const clearResults = (selectContent) =>{
+        setContent(null)
+        setTxtSearch('')
+        textInput.current.value = ''
+        setSearching(false)
+        onClick(selectContent)
     }
 
 
@@ -51,11 +59,11 @@ const SearchBar = () => {
                         <input type={"radio"} name={'manga'} checked={category === 'manga' && 'checked'} onChange={e => handleCategory(e)}/>
                     </div>
                     <span className='search-bar-area'>
-                        <input type={'text'} onChange={e => handleTermSearch(e)} />
+                        <input type={'text'} ref={textInput} onChange={e => handleTermSearch(e)} />
                         <Loading isSearching={isSearching}/>
                     </span>
                 </div>
-                {(content) && <SearchResults isSearching = {isSearching} setSearching= {setSearching} contents = {content.slice(0,5)}/>} 
+                {(content) && <SearchResults isSearching = {isSearching} setSearching= {setSearching} contents = {content.slice(0,5)} onClick={(selectContent) => clearResults(selectContent)}/>} 
             </form>
 
         </div>
