@@ -1,5 +1,6 @@
 
 import { useState, useEffect, useRef, useContext } from 'react';
+import {GoArrowUp} from 'react-icons/go';
 import ResultContent from './ResultContent';
 import ImagesLoading from './ImagesLoading';
 import './index.css';
@@ -99,7 +100,7 @@ const SearchResults = ({ open, onclean, allResults, search, onClick }) => {
 
     return (
         <div ref={refSearchResults} className={`search-results ${open ? "show" : "hide"}`}>
-            <p className={`wait-input-message ${open && "hide"}`}>Search New Anime</p>
+            <p className={`wait-input-message ${open && "hide"}`}> <GoArrowUp style={{fontSize: 20}} className='arrow-animation'></GoArrowUp>Who is the target?<GoArrowUp className='arrow-animation' style={{fontSize: 20}}></GoArrowUp></p>
             {(!isImgLoaded) && <ImagesLoading />}
             {allResults && allResults.slice(0, 5).map(result => <ResultContent content={result} key={result.id} cacheImg = {cacheImg} isLoaded={isImgLoaded} onClick={() => onClick({ type: "search-bar", result })} />)}
         </div>

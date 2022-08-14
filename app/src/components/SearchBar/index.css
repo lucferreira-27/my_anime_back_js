@@ -39,16 +39,21 @@ input[type="radio"] {
   flex-wrap: wrap;
 
 }
-
-.search-bar input[type="text"]{
-    outline: none;
-    height: 30px;
-    border: 1px solid black;
-    border-radius: 15px;
-    width: 65vh;
+input:focus {
+    outline: none !important;
 }
-.search-bar:focus{
-    border: 1px solid gray;
+.search-bar input[type="text"]{
+    height: 30px;
+    width: 65vh;
+    border-radius: 0px;
+    border:  1.5px solid gray;
+
+}
+
+
+.search-bar input[type="text"]:focus{
+    border-bottom: 2px solid #195190;
+
 }
 
 .search-bar input[type="text"]

@@ -1,6 +1,4 @@
-
-
-.search-results{
+.search-results {
     display: flex;
     align-items: center;
     flex-direction: row;
@@ -10,11 +8,11 @@
     background-color: #195190;
     padding: 10px;
     border-radius: 2px;
-    transition: height 0.3s ease-in-out,width 0.5s ease-in-out;
-    
+    transition: height 0.3s ease-in-out, width 0.5s ease-in-out;
+
 }
 
-.results{
+.results {
     display: flex;
     align-items: center;
     flex-direction: row;
@@ -22,7 +20,7 @@
     flex-wrap: wrap;
 }
 
-.content{
+.content {
     height: 150px;
     width: 110px;
     display: flex;
@@ -30,7 +28,9 @@
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
 }
 
-.wait-input-message{
+.wait-input-message {
+    display: flex;
+    justify-content: space-around;
     text-align: center;
     width: 200px;
     color: #fff;
@@ -40,22 +40,47 @@
     transition: opacity 0.5s ease-in-out;
     opacity: 1;
     height: 100%;
-    
+}
+.wait-input-message span{
+    font-size: 30px;
 }
 
-.wait-input-message.hide{
+.wait-input-message.hide {
     opacity: 0;
     display: none;
 
 }
 
-.search-results.show{
+.search-results.show {
     height: 160px;
 
 }
-.search-results.hide{
+
+.search-results.hide {
     height: 20px;
     width: 50%;
     justify-content: center;
 
+}
+
+
+@keyframes arrow-animation {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.arrow-animation {
+    animation-name: arrow-animation;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
 }
