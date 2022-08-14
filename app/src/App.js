@@ -13,14 +13,8 @@ function App() {
   const onClickContent = ({type,content}) =>{
 
     const toTitle = ({back}) => {
-      let {title} = back
-      return {
-        id: title.id,
-        image_url: title.image_url,
-        name: title.name,
-        type: title.type,
-        url: title.mal_url
-      }
+      let {mal_url, ...others} = back.title
+      return {url: mal_url, ...others}
     }
     if (type == 'recent-back') {
       setSelectContent(toTitle(content))

@@ -1,11 +1,6 @@
-.contents{
-    display: flex;
-    justify-content: space-between;
 
-    
-}
-.content{
-    
+.img-content{
+    border: 1.5px solid #fff;
     height: 150px;
     width: 110px;
     position: relative;
@@ -14,13 +9,13 @@
 
 
 .c-container {
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
     display: flex;
+    opacity: 0;
     flex-direction: column;
     align-items: center;
     position: relative;
     justify-content: flex-end;
+
 }
 .c-container:hover{
     cursor: pointer;
@@ -28,9 +23,27 @@
 
 .visible{
     opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+
+}
+.visible:nth-child(2){
+    transition-delay: 0.5s
+}
+.visible:nth-child(3){
+    transition-delay: 0.6s
+}
+.visible:nth-child(4){
+    transition-delay: 0.7s
+}
+.visible:nth-child(5){
+    transition-delay: 0.8s
+}
+.visible:nth-child(6){
+    transition-delay: 0.9s
 }
 
-.c-container .text{
+
+.c-container .info{
     text-overflow: ellipsis;
     overflow: hidden;
     position: absolute;
@@ -43,14 +56,14 @@
     transition: padding-top .3s linear, width 0.3s linear
     
 }
-.c-container .text.title{
+.c-container .info.title{
     
     opacity: 0;
     transition: opacity 0.5s ease-in-out;;
     padding-bottom: 45%;
 }
 
-.c-container:hover .text{
+.c-container:hover .info{
     opacity: 1;
     padding-top: 129px;
     width: 110px;
@@ -59,10 +72,7 @@
     opacity: 1;
 
 }
-.c-container .text.year {
+.c-container .info.year {
     background: #000000C7;
     border-bottom: 1px solid #FFFFFF;
 }
-
-
-

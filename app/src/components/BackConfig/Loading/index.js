@@ -1,14 +1,10 @@
 
 import './index.css';
-const Loading = ({ category }) => {
-    const formartCategory = (category) =>{
-        return category.charAt(0).toUpperCase() + category.slice(1);
-    }
+const Loading = ({ error,category }) => {
+
     return (
         <div className='loading-area'>
             <span class="lds-dual-ring" />
-            <p>Fetching {formartCategory(category)} Statistics</p>
-
         </div>
     )
 

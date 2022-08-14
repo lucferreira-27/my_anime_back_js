@@ -6,7 +6,7 @@ import StatisticsInfo from '../StatisticsInfo'
 const BackSetup = ({ content, fetch: { isFechting, setFechting } }) => {
 
     const [info, setInfo] = useState({})
-    const [isLoading, setLoading] = useState(false)
+    const [isError, setError] = useState(false)
     const backStyle = {
         backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url(${content.image_url})`,
         backgroundSize: 'cover',
@@ -21,28 +21,28 @@ const BackSetup = ({ content, fetch: { isFechting, setFechting } }) => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ "urls": [content.url] })
             };
-            fetch('http://localhost:9000/statistics/', options)
-                .then(response => response.json())
-                .then(response => {
-                    console.log(response[0].statistics)
-                    setInfo(response[0].statistics)
-                    setFechting(false)
-                    setLoading(false)
-                })
-                .catch(err => console.error(err));
+            try{
+                let response = await fetch('http://localhost:9000/statistics/', options)
+                let json = await response.json()
+                setInfo(json[0].statistics)
+                setFechting(false)
+            }catch(error){
+                setError(true)
+            }
+
         }
-        if (!isLoading) {
-            setLoading(true)
+        if (isFechting) {
+            setError(false)
             getStatistics()
         }
     }, [isFechting])
     const formatSimpleInfo = () => {
-        let {start_year, media_type, status} = content
-        let siglas_types = ["TV","OVA","ONA"]
+        let { start_year, media_type, status } = content
+        let siglas_types = ["TV", "OVA", "ONA"]
         return (
             <p>{start_year}
                 <span> | {siglas_types.includes(media_type) ? media_type : media_type.toLowerCase()}</span>
-                {media_type != 'Movie' && <span> | {content.status.toLowerCase()}</span>}
+                {media_type != 'Movie' && <span> | {status.toLowerCase()}</span>}
             </p>
         )
 
@@ -57,7 +57,7 @@ const BackSetup = ({ content, fetch: { isFechting, setFechting } }) => {
                     </div>
                     <div className='statistics-area'>
                         <h4>{content.name}</h4>
-                        {isFechting ? <Loading category={content.type || content.back.title.type} /> : <StatisticsInfo url={content.url} info={info} />}
+                        {isFechting || isError ? <Loading error={isError} category={content.type || content.back.title.type} /> : <StatisticsInfo url={content.url} info={info} />}
                     </div>
                 </div>
             </div>

@@ -1,15 +1,16 @@
 
 import { useEffect, useRef, useState } from 'react';
 import './index.css';
-import Loading from '../Loading'
+import InputLoading from '../SearchResult/InputLoading'
 import SearchResults from '../SearchResult'
 const SearchBar = ({onClick}) => {
     const [isSearching, setSearching] = useState(false)
-    const [searchTerm, setTxtSearch] = useState('')
+    const [searchTerm, setSearchTerm] = useState('')
     const [category, setCategory] = useState('anime')
     const [content,setContent] = useState()
+    const [hasSearchResults, setSearchResults] = useState(false)
     const handleTermSearch = (event) => {
-        setTxtSearch(event.target.value)
+        setSearchTerm(event.target.value)
     }
     const handleCategory=(e)=>{
         setCategory(e.target.name)
@@ -17,21 +18,21 @@ const SearchBar = ({onClick}) => {
     const textInput = useRef()
 
     const search = async () =>{
-        console.log(searchTerm)
         const url = `http://localhost:9000/search?q=${searchTerm}&category=${category}`
         setSearching(true)
         let response = await fetch(url)
         let json = await response.json()
+        setSearching(false)
         setContent(json)
+        setSearchResults(true)
     }
-    const clearResults = (selectContent) =>{
+    const clearResults = () =>{
         setContent(null)
-        setTxtSearch('')
+        setSearchTerm('')
         textInput.current.value = ''
         setSearching(false)
-        onClick(selectContent)
+        setSearchResults(false)
     }
-
 
 
     useEffect(() => {
@@ -39,7 +40,8 @@ const SearchBar = ({onClick}) => {
           if(searchTerm.length){
             search()
             return
-          } 
+          }
+          clearResults()
           setSearching(false)
         }, 500)
     
@@ -60,10 +62,11 @@ const SearchBar = ({onClick}) => {
                     </div>
                     <span className='search-bar-area'>
                         <input type={'text'} ref={textInput} onChange={e => handleTermSearch(e)} />
-                        <Loading isSearching={isSearching}/>
+                        <InputLoading isSearching={isSearching}/>
                     </span>
                 </div>
-                {(content) && <SearchResults isSearching = {isSearching} setSearching= {setSearching} contents = {content.slice(0,5)} onClick={(selectContent) => clearResults(selectContent)}/>} 
+                <SearchResults open={hasSearchResults} onclean = {clearResults} allResults= {content} search = {{isSearching,setSearching}} onClick= {() => console.log("click")}/>
+               {/* {(content) && <SearchResults isSearching = {isSearching} setSearching= {setSearching} contents = {content.slice(0,5)} onClick={(selectContent) => onClickSearchResult(selectContent)}/>} */}
             </form>
 
         </div>

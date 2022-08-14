@@ -9,8 +9,8 @@ const StatisticsInfo = ({ url,info }) => {
             <a class="mal-link" href={url} target="_blank">MyAnimeList</a>
             <div className='score'>
                 <span>Score</span>
-                <p>{info.score}</p>
-                <span>20000 Users</span>
+                <p>{info.scoreValue}</p>
+                <span>{info.scoreCount} Users</span>
             </div>
             <div className='members'>
                 <span>Members</span>

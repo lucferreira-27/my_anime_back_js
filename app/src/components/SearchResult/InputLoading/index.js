@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from 'react';
 import './index.css';
-const Loading = ({isSearching}) => {
+const InputLoading = ({isSearching}) => {
     return (
         <div className='loading'>
             <div className="chat-bubble">
@@ -16,4 +16,4 @@ const Loading = ({isSearching}) => {
 
 }
 
-export default Loading
+export default InputLoading
