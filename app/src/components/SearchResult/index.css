@@ -6,12 +6,11 @@
     flex-direction: row;
     justify-content: space-around;
     flex-wrap: wrap;
-    width: 100%;
+    width: 600px;
     background-color: #195190;
     padding: 10px;
     border-radius: 2px;
     transition: height 0.3s ease-in-out,width 0.5s ease-in-out;
-    overflow: auto;
     
 }
 

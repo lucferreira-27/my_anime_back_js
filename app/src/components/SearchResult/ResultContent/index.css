@@ -24,24 +24,29 @@
 .visible{
     opacity: 1;
     transition: opacity 0.5s ease-in-out;
-
 }
-.visible:nth-child(2){
+
+.hide{
+    display: none;
+}
+
+.delay:nth-child(2){
     transition-delay: 0.5s
 }
-.visible:nth-child(3){
+.delay:nth-child(3){
     transition-delay: 0.6s
 }
-.visible:nth-child(4){
+
+.delay:nth-child(4){
     transition-delay: 0.7s
 }
-.visible:nth-child(5){
+
+.delay:nth-child(5){
     transition-delay: 0.8s
 }
-.visible:nth-child(6){
+.delay:nth-child(6){
     transition-delay: 0.9s
 }
-
 
 .c-container .info{
     text-overflow: ellipsis;

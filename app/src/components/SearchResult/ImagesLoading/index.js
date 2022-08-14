@@ -1,8 +1,10 @@
 
 import './index.css';
-const ImagesLoading = () => {
+const ImagesLoading = (show=true) => {
     return (
-        <div class="images-loading"><div></div><div></div><div></div></div>
+        <>
+            {show && <div class="images-loading"><div></div><div></div><div></div></div>}
+        </>
     )
 }
 

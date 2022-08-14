@@ -18,13 +18,13 @@ const SearchBar = ({onClick}) => {
     const textInput = useRef()
 
     const search = async () =>{
+        setSearchResults(true)
         const url = `http://localhost:9000/search?q=${searchTerm}&category=${category}`
         setSearching(true)
         let response = await fetch(url)
         let json = await response.json()
         setSearching(false)
         setContent(json)
-        setSearchResults(true)
     }
     const clearResults = () =>{
         setContent(null)
