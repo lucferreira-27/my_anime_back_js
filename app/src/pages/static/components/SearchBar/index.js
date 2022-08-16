@@ -1,8 +1,8 @@
 
 import { useEffect, useRef, useState } from 'react';
-import './index.css';
-import InputLoading from '../SearchResult/InputLoading'
-import SearchResults from '../SearchResult'
+import './style.css';
+import InputLoading from './InputLoading'
+import SearchResults from './SearchResult'
 const SearchBar = ({onClick}) => {
     const [isSearching, setSearching] = useState(false)
     const [searchTerm, setSearchTerm] = useState('')

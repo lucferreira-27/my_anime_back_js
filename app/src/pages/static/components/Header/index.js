@@ -1,5 +1,5 @@
 
-import './index.css';
+import '../style.css';
 const Header = ({onClick}) =>{
     return (
         <header>

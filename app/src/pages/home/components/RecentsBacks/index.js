@@ -1,7 +1,7 @@
 
 import './index.css';
 import { useEffect, useState } from 'react';
-import PreviewBack from '../PreviewBack';
+import PreviewBack from './PreviewBack';
 
 const RecentsBacks = ({onClickContent}) => {
 

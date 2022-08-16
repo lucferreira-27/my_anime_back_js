@@ -1,0 +1,58 @@
+
+
+/* ==== Header ==== */
+
+.logo{
+    display: flex;
+    justify-content: center;
+    font-weight: normal;
+    font-size: 50px;
+    color: white;
+    font-family: 'AGRevueCyr-Roman', sans-serif;
+    margin-bottom: 5px;
+}
+
+.logo span:hover{
+    cursor: pointer;
+}
+
+
+
+.logo .back{
+    color: #AB2E33;
+}
+
+.main-header{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    height: 15vh;
+    background-color: #195190;
+}
+
+/* ==== Main ==== */
+
+
+
+
+/* ==== Footer ==== */
+
+.page-footer{
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #195190;
+    bottom: 0;
+    left: 0;
+}
+.footer-info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer-info p{
+    margin: 3px;
+    color: white;
+    font-size: 12px;
+    font-family: "Open Sans", sans-serif;}

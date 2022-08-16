@@ -1,6 +1,6 @@
 
 import './index.css';
-const Loading = ({ error,category }) => {
+const Loading = () => {
 
     return (
         <div className='loading-area'>

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import './index.css';
 import Loading from '../Loading'
 import StatisticsInfo from '../StatisticsInfo'
-const BackSetup = ({ content, fetch: { isFechting, setFechting } }) => {
+const TargetDetails = ({ content, fetch: { isFechting, setFechting } }) => {
 
     const [info, setInfo] = useState({})
     const [isError, setError] = useState(false)
@@ -66,4 +66,4 @@ const BackSetup = ({ content, fetch: { isFechting, setFechting } }) => {
 
 }
 
-export default BackSetup
+export default TargetDetails

@@ -1,10 +1,10 @@
 
-import Header from './components/Header'
-import SearchBar from './components/SearchBar/index.js';
-import Footer from './components/Footer'
+import Header from './pages/static/components/Header'
+import SearchBar from './pages/static/components/SearchBar/index.js';
+import Footer from './pages/static/components/Footer';
 import { useEffect, useState } from 'react';
-import RecentsBacks from './components/RecentsBacks';
-import BackConfig from './components/BackConfig';
+import RecentsBacks from './pages/home/components/RecentsBacks';
+import BackConfig from './pages/back/components/BackConfig';
 
 function App() {
 
@@ -38,7 +38,7 @@ function App() {
     <div className="App">
         <Header onClick={setHome}/>
         <SearchBar onClick={onClickContent}/>
-        {isHome ? <RecentsBacks onClickContent={onClickContent}/> :  <BackConfig selectContent={selectContent}/>}
+        {isHome ? <RecentsBacks onClickContent={onClickContent}/> :  <BackPanel selectContent={selectContent}/>}
         <Footer/>
     </div>
   );

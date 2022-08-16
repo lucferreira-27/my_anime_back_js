@@ -1,10 +1,9 @@
 
 import { useEffect, useState } from 'react';
 import './index.css';
-import Loading from './Loading'
-import BackSetup from './BackSetup'
+import TargetDetails from './TargetDetails'
 
-const BackConfig = ({ selectContent }) => {
+const BackPanel = ({ selectContent }) => {
 
     const [isFechting, setFechting] = useState(true)
 
@@ -14,10 +13,10 @@ const BackConfig = ({ selectContent }) => {
 
     return (
         <div>
-            <BackSetup content={selectContent || selectContent} fetch={{ isFechting, setFechting }} />
+            <TargetDetails content={selectContent || selectContent} fetch={{ isFechting, setFechting }} />
         </div>
     )
 
 }
 
-export default BackConfig
+export default BackPanel
