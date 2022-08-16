@@ -33,6 +33,10 @@ const SearchBar = ({onClick}) => {
         setSearching(false)
         setSearchResults(false)
     }
+    const onClickResult  = (result) =>{
+        clearResults()
+        onClick(result)
+    }
 
 
     useEffect(() => {
@@ -65,7 +69,7 @@ const SearchBar = ({onClick}) => {
                         <InputLoading isSearching={isSearching}/>
                     </span>
                 </div>
-                <SearchResults open={hasSearchResults} onclean = {clearResults} allResults= {content} search = {{isSearching,setSearching}} onClick= {() => console.log("click")}/>
+                <SearchResults open={hasSearchResults} onclean = {clearResults} allResults= {content} search = {{isSearching,setSearching}} onClick= {(content) => onClickResult(content)}/>
                {/* {(content) && <SearchResults isSearching = {isSearching} setSearching= {setSearching} contents = {content.slice(0,5)} onClick={(selectContent) => onClickSearchResult(selectContent)}/>} */}
             </form>
 

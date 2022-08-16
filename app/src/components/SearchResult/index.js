@@ -102,7 +102,7 @@ const SearchResults = ({ open, onclean, allResults, search, onClick }) => {
         <div ref={refSearchResults} className={`search-results ${open ? "show" : "hide"}`}>
             <p className={`wait-input-message ${open && "hide"}`}> <GoArrowUp style={{fontSize: 20}} className='arrow-animation'></GoArrowUp>Who is the target?<GoArrowUp className='arrow-animation' style={{fontSize: 20}}></GoArrowUp></p>
             {(!isImgLoaded) && <ImagesLoading />}
-            {allResults && allResults.slice(0, 5).map(result => <ResultContent content={result} key={result.id} cacheImg = {cacheImg} isLoaded={isImgLoaded} onClick={() => onClick({ type: "search-bar", result })} />)}
+            {allResults && allResults.slice(0, 5).map(result => <ResultContent content={result} key={result.id} cacheImg = {cacheImg} isLoaded={isImgLoaded} onClick={() => onClick({ type: "search-bar", value: result })} />)}
         </div>
     )
 

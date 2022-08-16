@@ -22,7 +22,7 @@ const RecentsBacks = ({onClickContent}) => {
                 <h3>Recents Backs</h3>
             </div>
             <div className="preview-backs">
-                {previewBacks && previewBacks.map((back,index) => <PreviewBack key={index} back={back} onClick={onClickContent}/>)}
+                {previewBacks && previewBacks.map((back,index) => <PreviewBack key={index} back={back} onClick={(content) => onClickContent(content)}/>)}
             </div>
         </>
 

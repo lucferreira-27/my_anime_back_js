@@ -56,7 +56,7 @@ const PreviewBack = ({ back,onClick }) => {
                     <ul className='info'>
                         {getInfos()}
                     </ul>
-                    <a className='show-more' onClick={() => onClick({type:"recent-back",content:{back}})}>Show More</a>
+                    <a className='show-more' onClick={() => onClick({type:"recent-back",value:back.title})}>Show More</a>
                 </div>
             </div>
 

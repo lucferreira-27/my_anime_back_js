@@ -8,6 +8,7 @@ a, a:hover, a:focus, .mal-link:active {
     display: flex;
     justify-content: center;
     height: 600px;
+
 }
 
 .setup-info {
