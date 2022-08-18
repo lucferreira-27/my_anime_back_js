@@ -4,42 +4,40 @@ import SearchBar from './pages/static/components/SearchBar/index.js';
 import Footer from './pages/static/components/Footer';
 import { useEffect, useState } from 'react';
 import RecentsBacks from './pages/home/components/RecentsBacks';
-import BackConfig from './pages/back/components/BackConfig';
+import BackPanel from './pages/back/components/BackPanel';
+import React from "react";
+import { useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 
 function App() {
 
   const [selectContent, setSelectContent] = useState()
   const [isHome, setHome] = useState(true)
-  const onClickContent = (target) =>{
+  const navigate = useNavigate();
 
-    const setRecentBack = ({value}) =>{
-      setSelectContent({url: value.mal_url, ...value})
-    }
-
-    const setNewContent = ({value}) =>{
-      setSelectContent({...value,...value.payload})
-    }
-    
-    if(target.type == 'recent-back'){
-        setRecentBack(target)
-        return
-    }
-    setNewContent(target)
+  const setRecentBack = ({ value }) => {
+    setSelectContent({ url: value.mal_url, ...value })
   }
 
-  useEffect(() =>{
-      if(selectContent){
-          setHome(false)
-      }
-  },[selectContent])
-
+  const setNewContent = ({ value }) => {
+    setSelectContent({ ...value, ...value.payload })
+  }
+  useEffect(() => {
+    if (selectContent)
+      navigate(`/panel/${selectContent.type}/${selectContent.id}`, { replace: true })
+  }, [selectContent])
 
   return (
     <div className="App">
-        <Header onClick={setHome}/>
-        <SearchBar onClick={onClickContent}/>
-        {isHome ? <RecentsBacks onClickContent={onClickContent}/> :  <BackPanel selectContent={selectContent}/>}
-        <Footer/>
+      <Header onClick={setHome} />
+      <SearchBar onClick={setNewContent} />
+      <Routes>
+        <Route path="/" element={<RecentsBacks onClickContent={setRecentBack} />} />
+        <Route path="/panel/:category/:id" element={<BackPanel selectContent={selectContent} />} />
+        <Route path="/back/:id" element={<BackPanel selectContent={selectContent} />} />
+        <Route path="*" element={ <Navigate to="/" />}/>
+      </Routes>
+      <Footer />
     </div>
   );
 }

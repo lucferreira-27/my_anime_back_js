@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react';
 import './index.css';
 import Loading from '../Loading'
 import StatisticsInfo from '../StatisticsInfo'
-const TargetDetails = ({ content, fetch: { isFechting, setFechting } }) => {
-
+const TargetDetails = ({ content }) => {
+    
+    const [isFechting, setFechting] = useState(true)
     const [info, setInfo] = useState({})
     const [isError, setError] = useState(false)
     const backStyle = {
@@ -21,12 +22,12 @@ const TargetDetails = ({ content, fetch: { isFechting, setFechting } }) => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ "urls": [content.url] })
             };
-            try{
+            try {
                 let response = await fetch('http://localhost:9000/statistics/', options)
                 let json = await response.json()
                 setInfo(json[0].statistics)
                 setFechting(false)
-            }catch(error){
+            } catch (error) {
                 setError(true)
             }
 

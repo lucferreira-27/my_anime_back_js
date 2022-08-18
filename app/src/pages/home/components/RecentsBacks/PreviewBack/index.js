@@ -1,6 +1,7 @@
 
 import './index.css';
 import { BiUpArrowAlt,BiDownArrowAlt } from 'react-icons/bi';
+import {Link} from "react-router-dom";
 
 const PreviewBack = ({ back,onClick }) => {
     const backStyle = {
@@ -56,7 +57,9 @@ const PreviewBack = ({ back,onClick }) => {
                     <ul className='info'>
                         {getInfos()}
                     </ul>
-                    <a className='show-more' onClick={() => onClick({type:"recent-back",value:back.title})}>Show More</a>
+                    <Link className='show-more'  to={{pathname: `/back/${back.id}`, back: {back}}}>
+                        Show More
+                    </Link>
                 </div>
             </div>
 
