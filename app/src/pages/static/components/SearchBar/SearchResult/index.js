@@ -12,18 +12,15 @@ const SearchResults = ({ open, onclean, allResults, search, onClick }) => {
         const [reloadSignal, setReloadSignal] = useState(false)
         const checkImagesLoaded = () => {
             const images = document.querySelectorAll('.img-content');
-            console.log("IMAGE - ",images.length)
             setLoaded(false);
             for (let i = 0; i < images.length; i++) {
                 const image = images[i];
                 if (!image.complete) {
                     setCacheImg(false)
-                    console.log("IMAGE - NO")
                     setReloadSignal(!reloadSignal)
                     return false
                 }
             }
-            console.log("IMAGE - YES")
             setLoaded(true);
             return true;
         };

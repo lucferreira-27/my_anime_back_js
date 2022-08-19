@@ -1,7 +1,7 @@
-import useFetch from "../../static/hooks/useFetch";
+import useFetch from "./useFetch";
 
 const useFetchContent = (id,category) => {
-    console.log(id)
+    (id)
     const url  = `https://myanimelist.net/${category}/${id}`
     const options = {
         method: 'POST',

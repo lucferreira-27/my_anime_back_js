@@ -4,7 +4,7 @@ import SearchBar from './pages/static/components/SearchBar/index.js';
 import Footer from './pages/static/components/Footer';
 import { useEffect, useState } from 'react';
 import RecentsBacks from './pages/home/components/RecentsBacks';
-import BackPanel from './pages/back/components/BackPanel';
+import Panel from './pages/back/components/Panel';
 import React from "react";
 import { useNavigate } from 'react-router-dom';
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
@@ -17,6 +17,7 @@ function App() {
 
   const setRecentBack = ({ value }) => {
     setSelectContent({ url: value.mal_url, ...value })
+    (value)
   }
 
   const setNewContent = ({ value }) => {
@@ -33,8 +34,8 @@ function App() {
       <SearchBar onClick={setNewContent} />
       <Routes>
         <Route path="/" element={<RecentsBacks onClickContent={setRecentBack} />} />
-        <Route path="/panel/:category/:id" element={<BackPanel selectContent={selectContent} />} />
-        <Route path="/back/:id" element={<BackPanel selectContent={selectContent} />} />
+        <Route path="/panel/:category/:id" element={<Panel selectContent={selectContent} />} />
+        <Route path="/back/details/:id" element={<Panel selectContent={selectContent} />} />
         <Route path="*" element={ <Navigate to="/" />}/>
       </Routes>
       <Footer />

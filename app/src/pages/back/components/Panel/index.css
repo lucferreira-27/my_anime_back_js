@@ -1,0 +1,11 @@
+.setup-area {
+    display: flex;
+    justify-content: center;
+    height: 550px;
+    transition: height 0.5s ease-in-out;
+
+}
+
+.setup-area.expand{
+    height: 900px;
+}

@@ -27,7 +27,7 @@
 }
 
 .loading-area{
-    margin: 35px;
+    margin: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -37,9 +37,10 @@
     width: 200px;
     margin: 20px;
     color: #fff;
-    border-radius: 5px;
-    background-color: #195190;
+    background-color: rgba(0, 0, 0, 0.35);
     padding: 3px 20px;
+    text-align: center;
+    margin-bottom: 15px;
 }
 
 .loading-area p::after{

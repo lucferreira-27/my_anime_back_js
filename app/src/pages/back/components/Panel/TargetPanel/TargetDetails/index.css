@@ -1,15 +1,8 @@
-
 a, a:hover, a:focus, .mal-link:active {
     text-decoration: none;
     color: #fff;
 }
 
-.setup-area {
-    display: flex;
-    justify-content: center;
-    height: 600px;
-
-}
 
 .setup-info {
     margin-top: 25px;
@@ -19,8 +12,8 @@ a, a:hover, a:focus, .mal-link:active {
     width: 75%;
     border-radius: 5px;
     position: relative;
+    transition: height 0.5s ease-in-out;
 }
-
 
 
 
@@ -166,4 +159,3 @@ img.setup-img{
     box-shadow: 0 6px 4px -4px black;
 
 }
-
