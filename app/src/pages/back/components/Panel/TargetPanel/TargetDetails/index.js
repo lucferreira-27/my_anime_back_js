@@ -44,7 +44,7 @@ const TargetDetails = ({ content }) => {
     const showBackInfo = () => {
         return (<>
             <StatisticsInfo info={info} />
-            <InputBackInfo onFormClick={(values) => getSamples(values)} />
+            <InputBackInfo limits={{minStart: "2011-01-01",maxEnd: "2020-01-01"}} onFormClick={(values) => getSamples(values)} />
         </>)
     }
     return (
