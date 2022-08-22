@@ -6,7 +6,7 @@ var backsRouter = require('./routes/backs');
 var titlesRouter = require('./routes/titles');
 var searchRouter = require('./routes/search');
 var waybackRouter = require('./routes/wayback');
-var statisticsRouter = require('./routes/statistics');
+var samplesRouter = require('./routes/samples');
 
 var db = require('./database/db')
 
@@ -23,7 +23,7 @@ app.use('/titles', titlesRouter);
 app.use('/search', searchRouter);
 app.use('/wayback', waybackRouter);
 
-app.use('/statistics', statisticsRouter);
+app.use('/samples', samplesRouter);
 
 
 

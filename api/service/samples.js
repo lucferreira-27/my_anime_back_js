@@ -101,6 +101,6 @@ const scrape = async (url) => {
 
     values.push(...getScoreValues())
     values.push(...getImage())
-    return { statistics: toObject(values) }
+    return { samples: toObject(values) }
 }
 module.exports = scrape

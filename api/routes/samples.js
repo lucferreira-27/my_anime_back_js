@@ -2,10 +2,10 @@ var express = require('express');
 const { response } = require('../server.js');
 var router = express.Router();
 const axios = require('axios').default;
-const statistics = require("../service/statistics.js")
+const samples = require("../service/samples.js")
 const getStatiscs = (url) => {
     return new Promise((resolve, reject) => {
-        statistics(url)
+        samples(url)
         .then((value) => resolve({ ...value, url }))
         .catch(({ message }) => {
             reject({ message, url })
@@ -42,14 +42,14 @@ router.use(validation)
 
 router.post('/', async function ({urls}, res) {
     
-    const statistics = (await Promise.allSettled(urls.map(getStatiscs))).map(({status,reason,value}) => {
+    const samples = (await Promise.allSettled(urls.map(getStatiscs))).map(({status,reason,value}) => {
         if (status == 'rejected') {
             return { error: { msg: reason.message, url: reason.url } }
         }
         return value
     })
  
-    return res.send(statistics);
+    return res.send(samples);
 });
 
 module.exports = router;

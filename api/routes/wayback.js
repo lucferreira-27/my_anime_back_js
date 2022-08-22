@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
 const wayback = require("../service/wayback");
-const statistics = require("../service/statistics")
+const samples = require("../service/samples")
 const compareAll = (urls) => {
     return new Promise((resolve, reject) => {
-        statistics(url)
+        samples(url)
         .then((value) => resolve({ ...value, url }))
         .catch(({ message }) => {
             reject({ message, url })
@@ -14,8 +14,8 @@ const compareAll = (urls) => {
 }
 const compareBetween = (url1,url2) => {
     return new Promise(async (resolve, reject) => {
-        let {statistics: firstResult} = await statistics(url1)
-        let {statistics: secondResult} = await statistics(url2)
+        let {samples: firstResult} = await samples(url1)
+        let {samples: secondResult} = await samples(url2)
         let diffMembers = parseInt(secondResult.members.replace(",","")) - parseInt(firstResult.members.replace(",",""))
         resolve((diffMembers * parseInt(firstResult.members.replace(",",""))) / 100)
 
