@@ -16,16 +16,16 @@ const scrape = async (url) => {
     const values = []
     const erros = []
 
-    const getValue = (text,value) =>{
-        const getAiredValue = (airedValues) =>{
+    const getValue = (text, value) => {
+        const getAiredValue = (airedValues) => {
             const values = []
-            const getDates = (value) =>{
+            const getDates = (value) => {
                 let match = value.match(/([a-zA-z]{3,5})|(\d{1,2}(?=,))|(\d{4})/g)
                 let start = match.splice(0, 3)
                 let end = match
-                return {start, end}
+                return { start, end }
             }
-            let {start,end} = getDates(airedValues)
+            let { start, end } = getDates(airedValues)
             values.push({ text: "start_year", value: start[2] })
             values.push({ text: "end_year", value: end[2] })
             values.push({ text: "start_date", value: new Date(start) })
@@ -33,9 +33,9 @@ const scrape = async (url) => {
             console.log(...values)
             return values
         }
-        const getRankedValue = (value) =>{
+        const getRankedValue = (value) => {
             return { text: 'ranked', value: value.match(/#\d+/g)[0] }
-    
+
         }
         if (text == "aired") {
             return getAiredValue(value)
@@ -46,15 +46,15 @@ const scrape = async (url) => {
         return { text, value }
 
     }
-    const getScoreValues = () =>{
+    const getScoreValues = () => {
         let values = []
-        const selectors = ['span[itemprop="ratingValue"]', 'span[itemprop="ratingCount"]']
-        let scoreValues = selectors.map(selector => document.querySelector(selector).textContent)
+        let [el] = Array.from(document.querySelectorAll('.dark_text')).filter(el => el.textContent.includes("Score:"))
+        const scoreValues = el.parentElement.textContent.match(/(\d\.\d{2})|(?<=by\s)\d+/g)
         values.push({ text: 'scoreValue', value: scoreValues[0] },
-        { text: 'scoreCount', value: scoreValues[1] })
+            { text: 'scoreCount', value: scoreValues[1] })
         return values
     }
-    const toObject = (values) =>{
+    const toObject = (values) => {
         const tmp = []
         values.forEach(({ text, value }) => {
             tmp[text] = value
@@ -63,15 +63,15 @@ const scrape = async (url) => {
     }
 
 
-    document.querySelectorAll('.spaceit_pad .dark_text').forEach((el) => {
+    document.querySelectorAll('.dark_text').forEach((el) => {
         let originalText = el.textContent
         let text = originalText.replace(':', ``).toLocaleLowerCase().trim()
         try {
             if (!texts.includes(text)) return
             let elContent = el.parentElement.textContent.replace(originalText, "").trim()
-            let value = getValue(text,elContent)
-            if(Array.isArray(value))
-               return values.push(...value || value)
+            let value = getValue(text, elContent)
+            if (Array.isArray(value))
+                return values.push(...value || value)
             return values.push(value)
 
         } catch (e) {
@@ -80,7 +80,7 @@ const scrape = async (url) => {
         }
     })
 
-    values.push(...getScoreValues()) 
-    return {statistics: toObject(values)}
+    values.push(...getScoreValues())
+    return { statistics: toObject(values) }
 }
 module.exports = scrape

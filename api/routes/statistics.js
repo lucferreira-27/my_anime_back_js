@@ -22,7 +22,7 @@ const validation = (request, response, next) =>{
         return  response.send(error)
     }
 
-    const isValidUrl = (sample) => sample.match(/^(http?s:\/\/myanimelist.net\/)/g)
+    const isValidUrl = (sample) => sample.match(/^(http?s:\/\/myanimelist.net\/)|(http?s:\/\/web\.archive\.org)/g)
     const { urls } = request.body
 
     if(!urls){
