@@ -69,7 +69,35 @@ const Title = db.define("title", {
   type:{
     type: Sequelize.STRING,
     allowNull: false,
-  }
+  },
+  media_type:{
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  start_year:{
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  start_date:{
+    type: Sequelize.DATE,
+    allowNull: false,
+  },
+  end_date:{
+    type: Sequelize.DATE,
+    allowNull: true,
+  },
+  end_year:{
+    type: Sequelize.INTEGER,
+    allowNull: true,
+  },
+  start_year:{
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  status:{
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
 },{
   timestamps: false,
   createdAt: false,

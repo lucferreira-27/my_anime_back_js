@@ -53,6 +53,7 @@ router.get('/search', async function (req, res) {
         return res.send(waybacks)
     }catch(error){
         res.statusCode = 500
+        console.log(error)
         return res.send({error:{msg:error.message}})
     }
 });

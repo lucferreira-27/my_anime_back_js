@@ -29,13 +29,12 @@ const getBetweenDates = async (url,{startDate, endDate}) =>{
     }
 
     console.log("[Dates] Getting oldest year available ...")
-    const initYear = 0
+    const initYear = -1
     let oldestUrl = buildAvailableUrl(initYear, url)
     console.log("[Dates] Get url: " + oldestUrl)
     return new Promise((resolve,reject) =>{
         axios.get(oldestUrl).then(async ({ data }) => {
             let dateItems = []
-
             let timestamp = data.archived_snapshots.closest.timestamp
             let firstYear = getYearTimestamp(timestamp)
             let currentYear = new Date().getFullYear()
@@ -49,8 +48,14 @@ const getBetweenDates = async (url,{startDate, endDate}) =>{
             Promise.all(calendarPromises.map(c => c.promise)).then(values =>{
                 console.log(`[Dates] Sending ${values.length} requests to WayBackMachine ...`)
                 for(let i = 0; i < values.length; i++){
+       
                     let { data: { items } } = values[i]
+                    if(!items){
+                        continue
+                    }
                     let dates = items.filter(item => item[1] == 200).map(item => toDate(calendarPromises[i].year,item))
+                    if(dates.length == 0)
+                        continue
                     console.log(`[Dates] New dates created ${dates[0].toISOString()} - ${dates[dates.length - 1].toISOString()}`)
                     dateItems.push(dates)
                 }
@@ -65,13 +70,12 @@ const getBetweenDates = async (url,{startDate, endDate}) =>{
                                     return item >= startDate && item <= endDate
                                 })
                 if(filterItems.length == 0){
-                    reject({msg: "No dates found after filtered"})
+                    return reject({message: `No samples found in date range [${startDate}, ${endDate}]`})
                 }
                 resolve(filterItems)
             })
     
-    
-    
+
         }).catch(error => {
             reject(error)
         })

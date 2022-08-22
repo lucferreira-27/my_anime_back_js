@@ -15,7 +15,10 @@
             "type": "manga",
             "media_type": "Manga",
             "start_year": 1999,
-            "status": "Currently Airing"
+            "end_year": 2020,
+            "status": "Currently Airing",
+            "start_date": "2005-01-01",
+            "end_date": "2013-01-01"
         },
         "rate": {
             "members_rate": 0.53,
@@ -41,6 +44,9 @@
             "type": "anime",
             "media_type": "TV",
             "start_year": 2005,
+            "end_year": 2013,
+            "start_date": "2005-01-01",
+            "end_date": "2013-01-01",
             "status": "Finished Airing"
         },
         "rate": {
@@ -67,7 +73,9 @@
             "type": "manga",
             "media_type": "Manga",
             "start_year": 2012,
+            "start_date": "2005-01-01",
             "status": "Finished Airing"
+            
         },
         "rate": {
             "members_rate": -0.53,

@@ -27,7 +27,7 @@ const wayback = (url, config) => {
                 objDate.setFullYear(objDate.getFullYear() + 1)
                 return objDate
             }
-            return new Date(nextYear.toString())
+            return new Date(intDate.toString())
         }
         const setSpace = (space) =>{
             const defaultSpace = {day: 7, month: 6, year: 1}
