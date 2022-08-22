@@ -29,7 +29,7 @@ const getBetweenDates = async (url,{startDate, endDate}) =>{
     }
 
     console.log("[Dates] Getting oldest year available ...")
-    const initYear = -1
+    const initYear = -100
     let oldestUrl = buildAvailableUrl(initYear, url)
     console.log("[Dates] Get url: " + oldestUrl)
     return new Promise((resolve,reject) =>{

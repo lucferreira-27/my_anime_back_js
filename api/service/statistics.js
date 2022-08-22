@@ -12,7 +12,7 @@ const scrape = async (url) => {
     console.log(`[Scrape] Loading cheerio ... (${shortUrl})`)
     const $ = cheerio.load(body);
     const { document } = (new JSDOM(body)).window;
-    const texts = [`aired`, `status`, `popularity`, `ranked`, `members`, `favorites`]
+    const texts = [`aired`, `status`, `popularity`, `ranked`, `members`, `favorites`,`image`]
     const values = []
     const erros = []
 
@@ -37,6 +37,8 @@ const scrape = async (url) => {
             return { text: 'ranked', value: value.match(/#\d+/g)[0] }
 
         }
+
+
         if (text == "aired") {
             return getAiredValue(value)
         }
@@ -50,8 +52,20 @@ const scrape = async (url) => {
         let values = []
         let [el] = Array.from(document.querySelectorAll('.dark_text')).filter(el => el.textContent.includes("Score:"))
         const scoreValues = el.parentElement.textContent.match(/(\d\.\d{2})|(?<=by\s)\d+/g)
-        values.push({ text: 'scoreValue', value: scoreValues[0] },
-            { text: 'scoreCount', value: scoreValues[1] })
+        values.push(
+            { text: 'scoreValue', value: scoreValues[0] || '' },
+            { text: 'scoreCount', value: scoreValues[1] || '' }
+        )
+        return values
+    }
+    const getImage = () =>{
+        let values = []
+        const image = document.querySelector('[itemprop="image"]')
+        if(!image){
+            return values;
+        }
+        let src = image.getAttribute("data-src")
+        values.push({ text: 'image', value: src })
         return values
     }
     const toObject = (values) => {
@@ -63,7 +77,12 @@ const scrape = async (url) => {
     }
 
 
-    document.querySelectorAll('.dark_text').forEach((el) => {
+
+    const textAttributes = document.querySelectorAll('.dark_text')
+    if(textAttributes.length == 0){
+        throw Error("No page found in url")
+    }
+    textAttributes.forEach((el) => {
         let originalText = el.textContent
         let text = originalText.replace(':', ``).toLocaleLowerCase().trim()
         try {
@@ -76,11 +95,12 @@ const scrape = async (url) => {
 
         } catch (e) {
             console.log(`[Scrape] Error on collecting ${text} (${shortUrl})`)
-            erros.push(text)
+            erros.push('Error on collecting ${text}')
         }
     })
 
     values.push(...getScoreValues())
+    values.push(...getImage())
     return { statistics: toObject(values) }
 }
 module.exports = scrape
