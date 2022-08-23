@@ -1,6 +1,5 @@
 
 const axios = require('axios').default;
-const cheerio = require('cheerio');
 const { JSDOM } = require("jsdom");
 
 
@@ -10,14 +9,31 @@ const scrape = async (url) => {
     console.log(`[Scrape] GET from  (${shortUrl})`)
     const { data: body } = await axios.get(url)
     console.log(`[Scrape] Loading cheerio ... (${shortUrl})`)
-    const $ = cheerio.load(body);
     const { document } = (new JSDOM(body)).window;
-    const texts = [`aired`, `status`, `popularity`, `ranked`, `members`, `favorites`,`image`]
-    const values = []
-    const erros = []
+    const attributes = [shortUrl.includes("/anime/") ? `aired` : `published`,
+        `status`,
+        `popularity`,
+        `ranked`,
+        `members`,
+        `favorites`,
+        `score-value`,
+        `score-ranked`,    
+    ]
 
-    const getValue = (text, value) => {
-        const getAiredValue = (airedValues) => {
+    const values = []
+    values.push(getName(document))
+    values.push(...getOthersValues(document,attributes))
+    values.push(...getScoreValues(document))
+    values.push(...getImage(document))
+    values.push(getMediaType(document))    
+
+    return { samples: toObject(values) }
+}
+
+
+const getValue = (text, value) => {
+    const getStatusValue = (airedValues) => {
+        try {
             const values = []
             const getDates = (value) => {
                 let match = value.match(/([a-zA-z]{3,5})|(\d{1,2}(?=,))|(\d{4})/g)
@@ -30,63 +46,43 @@ const scrape = async (url) => {
             values.push({ text: "end_year", value: end[2] })
             values.push({ text: "start_date", value: new Date(start) })
             values.push({ text: "end_date", value: new Date(end) })
-            console.log(...values)
             return values
+        } catch (e) {
+            console.log("[Scrape] ERROR GETTING STATUS VALUE",e)
+            return { text: 'status', value:null }
         }
-        const getRankedValue = (value) => {
+
+    }
+    const getRankedValue = (value) => {
+        try {
             return { text: 'ranked', value: value.match(/#\d+/g)[0] }
-
+        } catch (e) {
+            console.log("[Scrape] ERROR GETTING RANKED VALUE",e)
+            return { text: 'ranked', value:null }
         }
-
-
-        if (text == "aired") {
-            return getAiredValue(value)
-        }
-        if (text == 'ranked') {
-            return getRankedValue(value)
-        }
-        return { text, value }
-
-    }
-    const getScoreValues = () => {
-        let values = []
-        let [el] = Array.from(document.querySelectorAll('.dark_text')).filter(el => el.textContent.includes("Score:"))
-        const scoreValues = el.parentElement.textContent.match(/(\d\.\d{2})|(?<=by\s)\d+/g)
-        values.push(
-            { text: 'scoreValue', value: scoreValues[0] || '' },
-            { text: 'scoreCount', value: scoreValues[1] || '' }
-        )
-        return values
-    }
-    const getImage = () =>{
-        let values = []
-        const image = document.querySelector('[itemprop="image"]')
-        if(!image){
-            return values;
-        }
-        let src = image.getAttribute("data-src")
-        values.push({ text: 'image', value: src })
-        return values
-    }
-    const toObject = (values) => {
-        const tmp = []
-        values.forEach(({ text, value }) => {
-            tmp[text] = value
-        })
-        return Object.assign({}, tmp)
     }
 
+    if (text == `aired` || text == `published`) {
+        return getStatusValue(value)
+    }
+    if (text == 'ranked') {
+        return getRankedValue(value)
+    }
+    return { text, value }
 
+}
 
+const getOthersValues = ((document,attributes) =>{
+    const values = []
     const textAttributes = document.querySelectorAll('.dark_text')
-    if(textAttributes.length == 0){
+    if (textAttributes.length == 0) {
         throw Error("No page found in url")
     }
     textAttributes.forEach((el) => {
         let originalText = el.textContent
         let text = originalText.replace(':', ``).toLocaleLowerCase().trim()
         try {
-            if (!texts.includes(text)) return
+            if (!attributes.includes(text)) return
             let elContent = el.parentElement.textContent.replace(originalText, "").trim()
             let value = getValue(text, elContent)
             if (Array.isArray(value))
@@ -95,12 +91,75 @@ const scrape = async (url) => {
 
         } catch (e) {
             console.log(`[Scrape] Error on collecting ${text} (${shortUrl})`)
-            erros.push('Error on collecting ${text}')
+            console.log(e)
         }
     })
+    return values
+})
 
-    values.push(...getScoreValues())
-    values.push(...getImage())
-    return { samples: toObject(values) }
+
+const getMediaType = (document) => {
+    try {
+        let [el] = Array.from(document.querySelectorAll('.dark_text + a'))
+        .filter(el => el.parentElement.textContent.includes("Type:"))
+        return { text: 'media_type', value: el.textContent }
+    } catch (e) {
+        console.log("[Scrape] ERROR GETTING MEDIA TYPE VALUE",e)
+        return { text: 'media_type', value:null }
+    }
+
 }
+const getName = (document) => {
+    try {
+        let nameElement = document.querySelector(".title-name")
+        let value = nameElement ? nameElement.textContent : document.querySelector("[itemprop='name']").textContent 
+        return { text: 'name', value }
+    } catch (e) {
+        console.log("[Scrape] ERROR GETTING NAME VALUE",e)
+        return { text: 'name', value:null }
+    }
+
+}
+
+const getScoreValues = (document) => {
+    try{
+        let values = []
+        let [el] = Array.from(document.querySelectorAll('.dark_text')).filter(el => el.textContent.includes("Score:"))
+        const scoreValues = el.parentElement.textContent.match(/(\d\.\d{2})|(?<=by\s)\d+/g)
+        values.push(
+            { text: 'scoreValue', value: scoreValues[0] || '' },
+            { text: 'scoreCount', value: scoreValues[1] || '' }
+        )
+        return values
+    }catch(e){
+        console.log("[Scrape] ERROR GETTING SCORE VALUES",e)
+        return null
+    }
+
+}
+const getImage = (document) => {
+    try {
+        let values = []
+        const image = document.querySelector('[itemprop="image"]')
+        if (!image) {
+            return values;
+        }
+        let src = image.getAttribute("data-src")
+        values.push({ text: 'image_url', value: src })
+        return values
+    } catch (e) {
+        console.log("[Scrape] ERROR GETTING IMAGE VALUE",e)
+        return { text: 'image_url', value:null }
+    }
+
+}
+
+const toObject = (values) => {
+    const tmp = []
+    values.forEach(({ text, value }) => {
+        tmp[text] = value
+    })
+    return Object.assign({}, tmp)
+}
+
 module.exports = scrape

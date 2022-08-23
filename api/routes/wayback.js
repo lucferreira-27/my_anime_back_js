@@ -2,32 +2,9 @@ var express = require('express');
 var router = express.Router();
 const wayback = require("../service/wayback");
 const samples = require("../service/samples")
-const compareAll = (urls) => {
-    return new Promise((resolve, reject) => {
-        samples(url)
-        .then((value) => resolve({ ...value, url }))
-        .catch(({ message }) => {
-            reject({ message, url })
-        })
-    })
-
-}
-const compareBetween = (url1,url2) => {
-    return new Promise(async (resolve, reject) => {
-        let {samples: firstResult} = await samples(url1)
-        let {samples: secondResult} = await samples(url2)
-        let diffMembers = parseInt(secondResult.members.replace(",","")) - parseInt(firstResult.members.replace(",",""))
-        resolve((diffMembers * parseInt(firstResult.members.replace(",",""))) / 100)
-
-    })
-}
 
 const searchByDates = (url,config) =>{
-    return new Promise((resolve,reject) =>{
-        wayback(url,config).then((dates) =>{
-            resolve(dates)
-        }).catch(reject)
-    })
+    return wayback(url,config)
 }
 
 
