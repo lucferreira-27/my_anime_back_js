@@ -34,8 +34,8 @@ function App() {
       <SearchBar onClick={setNewContent} />
       <Routes>
         <Route path="/" element={<RecentsBacks onClickContent={setRecentBack} />} />
-        <Route path="/panel/:category/:id" element={<Panel selectContent={selectContent} />} />
-        <Route path="/back/details/:id" element={<Panel selectContent={selectContent} />} />
+        <Route path="/panel/:category/:id" element={<Panel selectContent={selectContent} setSelectContent={setSelectContent} />} />
+        <Route path="/back/details/:id" element={<Panel selectContent={selectContent}  />} />
         <Route path="*" element={ <Navigate to="/" />}/>
       </Routes>
       <Footer />

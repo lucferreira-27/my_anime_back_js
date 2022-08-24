@@ -6,39 +6,77 @@ import './index.css';
 import TargetPanel from './TargetPanel'
 import { PanelContext } from '../../context/PanelContext';
 
-const Panel = ({ selectContent }) => {
+const Panel = ({ selectContent, setSelectContent }) => {
 
-    const { post, get, loading, error } = useFetch("http://localhost:9000")
+    const { post, get, response, loading, error } = useFetch("http://localhost:9000")
+    const { category, id } = useParams()
     const [samples, setSamples] = useState([])
     const [isEmpty, setEmpty] = useState(false)
     const navigate = useNavigate()
-    const getSamples = async ({start,end,space,period}) =>{
+    const searchSamples = async ({ start, end, space, period }) => {
         const url = selectContent.url
         const response = await get(`/wayback/search?url=${url}&start=${start}&end=${end}&space=${space}&period=${period}`)
-        if(response.error){
+        if (response.error) {
             return setEmpty(true)
         }
         setSamples(response)
     }
-    useEffect(() =>{
-        console.log(samples)
-    },[samples])
+    const getPanelInfo = async () => {
+        const url = `https://myanimelist.net/${category}/${id}`
+        const res = await post('/samples', { urls: [url] })
+        if (!Math.floor(res.status / 100) != 2) {
+            const info = res[0].samples
+            info.url = url
+            info.type = category
+            info.id = id
+            return info
+        }
 
-    useEffect(() =>{
-        setSamples([])
-    },[selectContent])
+    }
+    useEffect(() => {
+        if (samples.length > 0)
+            console.log(samples)
+    }, [samples])
 
     useEffect(() => {
-        if (!selectContent) {
-            navigate("/")
+        setSamples([])
+    }, [selectContent])
+
+    useEffect(() => {
+        const loadContent = async () => {
+            const info = await getPanelInfo()
+            console.log(info)
+            info && setSelectContent(info)
         }
-    })
+        if (!selectContent) {
+            loadContent()
+        }
+    }, [])
+
+    useEffect(() => {
+        if (error)
+            navigate("/")
+    }, [error])
 
     return (
-        <PanelContext.Provider value={{getSamples, samples, loadingSamples:loading}}>
-            <div class={`setup-area ${samples.length > 0 && !loading ? 'expand' : ''}`}>
-                {selectContent && <TargetPanel content={selectContent} />}
-            </div>
+        <PanelContext.Provider value={{ searchSamples, samples, loadingSamples: loading }}>
+            {
+                loading && !selectContent ?
+                    <div className='setup-area loading-area'>
+                        <div class="loadingio-spinner-rolling-2nyziwg0bch">
+                            <div class="ldio-slg5ju7zrpk">
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                    :
+                    <div class={`setup-area ${samples.length > 0 && !loading ? 'expand' : ''}`}>
+                        {selectContent && <TargetPanel key={selectContent.id} info={selectContent} />}
+                    </div>
+
+            }
+
+
         </PanelContext.Provider>
 
     )

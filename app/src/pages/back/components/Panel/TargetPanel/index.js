@@ -2,12 +2,14 @@
 import { useEffect, useState, useContext } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 import TargetDetails from './TargetDetails'
+import './index.css';
 
-const TargetPanel = ({content}) => {
+
+const TargetPanel = ({info}) => {
     
 
     const style = {
-        backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url(${content.image_url})`,
+        backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url(${info.image_url})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -15,7 +17,7 @@ const TargetPanel = ({content}) => {
 
     return (
         <div class="setup-info" style={style}>
-            {content && <TargetDetails content={content} />}
+            {info && <TargetDetails info={info} />}
         </div>
     )
 

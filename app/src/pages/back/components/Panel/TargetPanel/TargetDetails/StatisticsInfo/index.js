@@ -2,15 +2,15 @@
 import { useEffect, useState } from 'react';
 import './index.css';
 
-const StatisticsInfo = ({ url, info }) => {
-
+const StatisticsInfo = ({ info }) => {
+    console.log(info)
     return (
             <div className='infos'>
-                <a class="mal-link" href={url} target="_blank">MyAnimeList</a>
+                <a class="mal-link" href={info.url} target="_blank">MyAnimeList</a>
                 <div className='score'>
                     <span>Score</span>
-                    <p>{info.scoreValue}</p>
-                    <span>{info.scoreCount} Users</span>
+                    <p>{info.score}</p>
+                    <span>{info.score_users} Users</span>
                 </div>
                 <div className='members'>
                     <span>Members</span>
@@ -18,10 +18,10 @@ const StatisticsInfo = ({ url, info }) => {
                 </div>
                 <div className='ranks'>
                     <div className='r-score'>
-                        <p>Ranked  <span>{info.ranked}</span></p>
+                        <p>Ranked  <span>{`#${info.ranked}`}</span></p>
                     </div>
                     <div className='r-popularity'>
-                        <p>Popularity <span>{info.popularity}</span></p>
+                        <p>Popularity <span>{`#${info.popularity}`}</span></p>
                     </div>
                 </div>
             </div>
