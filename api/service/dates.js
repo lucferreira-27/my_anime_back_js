@@ -68,7 +68,7 @@ const getBetweenDates = async (url,{startDate, endDate}) =>{
                                         return item <= endDate
                                     }
                                     return item >= startDate && item <= endDate
-                                })
+                                }).map((date) => ({date,url}))
                 if(filterItems.length == 0){
                     return reject({message: `No samples found in date range [${startDate}, ${endDate}]`})
                 }
@@ -83,21 +83,21 @@ const getBetweenDates = async (url,{startDate, endDate}) =>{
 
 }
 const skipDate = (dates,{period,space}) =>{
-    const sortedDates = dates.sort((a,b) => b - a)
+    const sortedDates = dates.sort((a,b) => b.date - a.date)
     
     const getNotSkippable = (changeTime) =>{
         const MS_PER_DAY = 1000 * 60 * 60 * 24;
         let notIgnoreDates = []
         notIgnoreDates.push({value: sortedDates[sortedDates.length - 1],distance: 0})
-        let tmpDate = new Date(`${notIgnoreDates[0].value.getFullYear()}-01-02`); 
-        while(tmpDate < sortedDates[0]){
-            let closest = findClosest(tmpDate,sortedDates)
+        let tmpDate = new Date(`${notIgnoreDates[0].value.date.getFullYear()}-01-02`); 
+        while(tmpDate < sortedDates[0].date){
+            let {closest, url} = findClosest(tmpDate,sortedDates)
             let distance = Math.floor((closest.getTime() - tmpDate.getTime()) / MS_PER_DAY)
-            if(notIgnoreDates.find(ignore => ignore.value.getTime() == closest.getTime())){
+            if(notIgnoreDates.find(ignore => ignore.value.date.getTime() == closest.getTime())){
                 changeTime(tmpDate)
                 continue
             }
-            notIgnoreDates.push({value: new Date(closest.getTime()),distance})
+            notIgnoreDates.push({value: {date:new Date(closest.getTime()), url},distance})
             changeTime(tmpDate)
         }
         return notIgnoreDates
@@ -116,14 +116,15 @@ const skipDate = (dates,{period,space}) =>{
 
 const findClosest = (targetDate, allDates,forwards = true) =>{
     const array = [...allDates]
-    return array.sort((a, b) => {
-        var distancea = Math.abs(targetDate - a)
-        var distanceb = Math.abs(targetDate - b)
+    let closest = array.sort((a, b) => {
+        var distancea = Math.abs(targetDate - a.date)
+        var distanceb = Math.abs(targetDate - b.date)
         return distancea - distanceb
-    }).filter((date =>{
+    }).filter((item =>{
         if(!forwards) return
-            return date >= targetDate
+            return item.date >= targetDate
     }))[0]
+    return {closest: closest.date, url: closest.url}
 }
 
 

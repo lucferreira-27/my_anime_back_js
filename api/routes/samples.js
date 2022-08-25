@@ -44,6 +44,9 @@ router.post('/', async function ({urls}, res) {
     
     const samples = (await Promise.allSettled(urls.map(getStatiscs))).map(({status,reason,value}) => {
         if (status == 'rejected') {
+            if(reason.message.includes("404")){
+                res.statusCode = 404
+            }
             return { error: { msg: reason.message, url: reason.url } }
         }
         return value

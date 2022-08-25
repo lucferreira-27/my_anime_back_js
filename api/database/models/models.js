@@ -30,6 +30,10 @@ const Title = db.define("title", {
     autoIncrement: true,
     allowNull: false,
   },
+  mal_id:{
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
   name: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -46,11 +50,11 @@ const Title = db.define("title", {
     type: Sequelize.INTEGER,
     allowNull: false,
   },
-  ranked_position:{
+  ranked:{
     type: Sequelize.INTEGER,
     allowNull: false,
   },
-  popularity_position:{
+  popularity:{
     type: Sequelize.INTEGER,
     allowNull: false,
   },

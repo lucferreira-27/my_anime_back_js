@@ -1,8 +1,8 @@
 
 const { getBetweenDates, skipDate } = require("./dates")
 
-const wayback = (url, config) => {
-    const toWayBackUrl = (date) => {
+const wayback = async (url, config) => {
+    const toWayBackUrl = (url,date) => {
 
         const archiveUrl = "https://web.archive.org/web"
 
@@ -13,10 +13,9 @@ const wayback = (url, config) => {
             return `${archiveUrl}/${timestamp}/${searchUrl}`
         }
 
-        let timestamp = toTimestamp(date.value)
+        let timestamp = toTimestamp(date)
         let waybackUrl = buildWayBackUrl(timestamp, url)
-        date.waybackUrl = waybackUrl
-        return date
+        return {waybackUrl,date}
     }
     const getFilters = ({start,end,space,period}) =>{
         
@@ -52,9 +51,15 @@ const wayback = (url, config) => {
     }
 
     const filters = getFilters(config)
+    let url1 = url
+    let url2 = url.match(/.*\//g)[0]
+    const dates1 =  await getBetweenDates(url1, filters)
+    const dates2 =  await getBetweenDates(url2, filters)
+    const dates = [...dates1,...dates2]
+    const waybacks = skipDate(dates, filters).map(({value:{date,url}}) => toWayBackUrl(url,date))
 
-    return getBetweenDates(url, filters)
-        .then((dates) => skipDate(dates, filters).map(toWayBackUrl))
+    return {results: waybacks}
+
 
 
 }
