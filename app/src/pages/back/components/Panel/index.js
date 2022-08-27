@@ -5,7 +5,6 @@ import useFetch from '../../../static/hooks/useFetch';
 import './index.css';
 import TargetPanel from './TargetPanel'
 import { PanelContext } from '../../context/PanelContext';
-
 const Panel = ({ selectContent, setSelectContent }) => {
 
     const { post, get, response, loading, error } = useFetch("http://localhost:9000")
@@ -14,19 +13,21 @@ const Panel = ({ selectContent, setSelectContent }) => {
     const [isEmpty, setEmpty] = useState(false)
     const navigate = useNavigate()
     const searchSamples = async ({ start, end, space, period }) => {
+        setSamples([])
         const url = selectContent.url
-        const response = await get(`/wayback/search?url=${url}&start=${start}&end=${end}&space=${space}&period=${period}`)
-        if (response.error) {
+        const {results} = await get(`/wayback/search?url=${url}&start=${start}&end=${end}&space=${space}&period=${period}`)
+        console.log("response",results)
+        if (results.error) {
             return setEmpty(true)
         }
-        setSamples(response)
+        setSamples(results)
     }
     const getPanelInfo = async () => {
         const url = `https://myanimelist.net/${category}/${id}`
         const res = await post('/samples', { urls: [url] })
-        if (!Math.floor(res.status / 100) != 2) {
+        if (!Math.floor(res.status / 100) != 2 || res[0].error) {
             const info = res[0].samples
-            info.url = url
+            console.log(res)
             info.type = category
             info.id = id
             return info

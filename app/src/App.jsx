@@ -16,16 +16,16 @@ function App() {
   const navigate = useNavigate();
 
   const setRecentBack = ({ value }) => {
-    setSelectContent({ url: value.mal_url, ...value })
-    (value)
+    setSelectContent({ url: value.mal_url,...value, origin: "history" })
   }
 
   const setNewContent = ({ value }) => {
     setSelectContent({ ...value, ...value.payload })
   }
   useEffect(() => {
-    if (selectContent)
-      navigate(`/panel/${selectContent.type}/${selectContent.id}`, { replace: true })
+    if (selectContent){
+      navigate(`/panel/${selectContent.type}/${selectContent.origin ? selectContent.mal_id : selectContent.id}`, { replace: true })
+    }
   }, [selectContent])
 
   return (

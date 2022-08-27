@@ -1,0 +1,84 @@
+
+
+.chart-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-top: 25px;
+    margin-left: 25px;
+    flex-basis: 80%;
+    border: 1px solid #fff;
+    min-height: 33vh;
+    width: 50%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.35);
+    animation: 0.8s ease-out 0s 1 fadein;
+}
+
+.panel-chart{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+}
+.panel-chart .chart-area{
+    margin-top: 25px;
+    animation: 0.8s ease-out 0s 1 fadein;
+}
+
+.chart-panel{
+    
+    width: fit-content;
+    block-size: fit-content;
+    
+}
+
+.controllers{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    
+
+}
+
+.controllers div{
+    margin: 10px;
+    width: 150px;
+    padding: 15px;
+    background-color: #195190;
+    box-shadow: 0 5px 4px -4px black;
+    animation: pop-swirl 0.75s ease forwards;
+}
+
+.controllers div:hover{
+    outline: 1px solid #fff;
+    cursor: pointer;
+}
+
+.controllers .select{
+    outline:2px solid #fff;
+    animation: pop-swirl 0.5s ease forwards;
+
+}
+.controllers .select:hover{
+    outline:2px solid #fff;
+    cursor: auto;
+
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes pop-swirl {
+    from {
+        -webkit-transform: scale(0.5);
+    }
+    to {
+        -webkit-transform: scale(1.0);
+    }
+  }

@@ -12,6 +12,7 @@ a, a:hover, a:focus, .mal-link:active {
     justify-content: space-between;
     align-items: flex-start;
     width: 100%;
+    max-height: 50px;
 }
 
 

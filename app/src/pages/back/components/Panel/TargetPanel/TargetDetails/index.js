@@ -6,10 +6,10 @@ import StatisticsInfo from './StatisticsInfo'
 import InputBackInfo from '../InputBackInfo'
 import useFetch from '../../../../../static/hooks/useFetch';
 import { PanelContext } from '../../../../context/PanelContext';
-
+import ChartPanel from '../../ChartPanel';
 const TargetDetails = ({ info }) => {
 
-    const {searchSamples} = useContext(PanelContext)
+    const {searchSamples,samples} = useContext(PanelContext)
     const { post, loading, error } = useFetch("http://localhost:9000")
     const formatSimpleInfo = () => {
         let { start_year, status } = info
@@ -55,6 +55,7 @@ const TargetDetails = ({ info }) => {
                 <h4>{info.name}</h4>
                 {loading || !info ? <Loading error={error} /> : showBackInfo()}
             </div>
+            {samples.length > 0 && <ChartPanel samples={samples}/>}
         </div>
     )
 
