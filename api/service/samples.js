@@ -5,7 +5,8 @@ const { JSDOM } = require("jsdom");
 
 const scrape = async (url) => {
     const shortUrl = url.match(/(?<=myanimelist\.net).*/g)[0]
-
+    let match = url.match(/\d{8}/g)
+    const timestamp = match ? match[0] : null
     console.log(`[Scrape] GET from  (${shortUrl})`)
     const { data: body } = await axios.get(url)
     console.log(`[Scrape] Loading cheerio ... (${shortUrl})`)
@@ -28,7 +29,7 @@ const scrape = async (url) => {
     values.push(getMyAnimeListUrl(document))
     values.push(getMediaType(document))
 
-    return { samples: toObject(values) }
+    return { samples: toObject(values), timestamp }
 }
 
 
@@ -75,6 +76,8 @@ const getValue = (text, value) => {
 }
 
 const getOthersValues = ((document, attributes) => {
+    const cleanUp = () => document.querySelectorAll('sup').forEach(el => el.parentNode.removeChild(el))
+    cleanUp()
     const values = []
     const textAttributes = document.querySelectorAll('.dark_text')
     if (textAttributes.length == 0) {
