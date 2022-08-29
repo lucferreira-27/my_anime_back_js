@@ -1,0 +1,8 @@
+.options span{
+    font-weight: bold;
+    width: 100%;
+}
+
+.options .option{
+    flex-basis: 100%;
+}

@@ -16,7 +16,6 @@ const Panel = ({ selectContent, setSelectContent }) => {
         setSamples([])
         const url = selectContent.url
         const {results} = await get(`/wayback/search?url=${url}&start=${start}&end=${end}&space=${space}&period=${period}`)
-        console.log("response",results)
         if (results.error) {
             return setEmpty(true)
         }
@@ -27,7 +26,6 @@ const Panel = ({ selectContent, setSelectContent }) => {
         const res = await post('/samples', { urls: [url] })
         if (!Math.floor(res.status / 100) != 2 || res[0].error) {
             const info = res[0].samples
-            console.log(res)
             info.type = category
             info.id = id
             return info
@@ -46,7 +44,6 @@ const Panel = ({ selectContent, setSelectContent }) => {
     useEffect(() => {
         const loadContent = async () => {
             const info = await getPanelInfo()
-            console.log(info)
             info && setSelectContent(info)
         }
         if (!selectContent) {

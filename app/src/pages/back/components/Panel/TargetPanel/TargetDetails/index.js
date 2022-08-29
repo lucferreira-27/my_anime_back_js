@@ -26,7 +26,6 @@ const TargetDetails = ({ info }) => {
     useEffect(() =>{
         const getMoreInfos = async () =>{
             const res = await post('/samples', { urls: [info.url] })
-            console.log("res",res[0].samples)
             info.score_users = res[0].samples.score_users
             info.ranked = res[0].samples.ranked
             info.popularity = res[0].samples.popularity
