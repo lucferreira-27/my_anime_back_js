@@ -9,7 +9,7 @@ import { PanelContext } from '../../../../context/PanelContext';
 import ChartPanel from '../../ChartPanel';
 const TargetDetails = ({ info }) => {
 
-    const {searchSamples,samples} = useContext(PanelContext)
+    const { searchSamples, isChartOpen,samples ,setChartOpen,loadingSamples } = useContext(PanelContext)
     const { post, loading, error } = useFetch("http://localhost:9000")
     const formatSimpleInfo = () => {
         let { start_year, status } = info
@@ -23,24 +23,26 @@ const TargetDetails = ({ info }) => {
         )
     }
 
-    useEffect(() =>{
-        const getMoreInfos = async () =>{
+    useEffect(() => {
+        const getMoreInfos = async () => {
             const res = await post('/samples', { urls: [info.url] })
             info.score_users = res[0].samples.score_users
             info.ranked = res[0].samples.ranked
             info.popularity = res[0].samples.popularity
             info.members = res[0].samples.members
-
         }
-        if(!info.score_users)
+        if (!info.score_users)
             getMoreInfos()
-
-    },[info])
+        console.log("setChartOpen",false)    
+        setChartOpen(false)
+    }, [info])
 
     const showBackInfo = () => {
         return (<>
             <StatisticsInfo info={info} />
-            <InputBackInfo limits={{minStart: "2011-01-01",maxEnd: "2020-01-01"}} onFormClick={(values) => searchSamples(values)} />
+            <InputBackInfo limits={{ minStart: "2011-01-01", maxEnd: "2020-01-01" }} onFormClick={(values) => { 
+                searchSamples(values)
+             }} />
         </>)
     }
     return (
@@ -54,7 +56,7 @@ const TargetDetails = ({ info }) => {
                 <h4>{info.name}</h4>
                 {loading || !info ? <Loading error={error} /> : showBackInfo()}
             </div>
-            {samples.length > 0 && <ChartPanel samples={samples}/>}
+            <ChartPanel key={info.id} isChartOpen={isChartOpen} samples={samples} loadingSamples={loadingSamples} />
         </div>
     )
 

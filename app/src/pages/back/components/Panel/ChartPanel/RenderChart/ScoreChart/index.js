@@ -1,8 +1,24 @@
 
 import './index.css';
 import { format, parseISO, } from 'date-fns'
-import { Area, AreaChart, BarChart, Bar, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+import { Area, AreaChart, BarChart, Bar, LineChart, Line,LabelList, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 const ScoreChart = ({ data, dataKey, animationDuration }) => {
+    
+    
+    const removeRepeatValues  = (data) =>{
+        const repeatValues = data
+        const noRepeatValues = [data[0]]
+        repeatValues.forEach((content) =>{
+            
+            let found = noRepeatValues.find(repeatContent => repeatContent.value == content.value)
+            if(found){
+                return
+            }
+            noRepeatValues.push(content)
+        })
+        return noRepeatValues
+    }
+    const scoreData = removeRepeatValues(data)
     const formatXAxis = (str) => {
         try {
             const date = parseISO(str)
@@ -28,23 +44,25 @@ const ScoreChart = ({ data, dataKey, animationDuration }) => {
     }
 
     const getDomainScore = () =>{
-       const sorted = data.sort((a,b) => a.value - b.value)
-       console.log([sorted[0], sorted[sorted.length - 1]])
-       return [sorted[0].value - 0.01, sorted[sorted.length - 1].value + 0.01]
+       const sorted = scoreData.map(({value}) => parseFloat(value)).sort((a,b) => a - b)
+       
+       return [sorted[0] - 0.5, sorted[sorted.length - 1] + 0.5]
     }
     return (
         <>
-            <BarChart width={1000} height={280} data={data} margin={{ top: 5, right: 10, bottom: 5, left: 30 }}>
+            <BarChart width={1000} height={280} data={scoreData} margin={{ top: 5, right: 10, bottom: 5, left: 30 }}>
                 <defs>
                     <linearGradient id="color" x1="0" y1="0" x2="0" y2="1">
                         <stop offset={"0%"} stopColor={"#2451B7"} stopOpacity={0.4} />
                         <stop offset={"75%"} stopColor={"#2451B7"} stopOpacity={0.05} />
                     </linearGradient>
                 </defs>
-                <Bar animationDuration={animationDuration} dataKey={dataKey || "value"} stroke="#2451B7" fill="url(#color)" />
+                <Bar animationDuration={animationDuration} dataKey={dataKey || "value"} stroke="#2451B7" fill="url(#color)">
+                    <LabelList dataKey={"value"} position="top" style={{fill: '#fff'}}/>    
+                </Bar>
                 <XAxis dataKey="date" tickFormatter={formatXAxis} axisLine={false} />
                 <YAxis tickFormatter={formatYAxis} axisLine={false} allowDataOverFlow={true} domain={getDomainScore()}/>
-                <Tooltip content={<CustomTooltip />} />
+                <Tooltip cursor={{fill: '#ffffff4d'}} content={<CustomTooltip />} />
                 <CartesianGrid opacity={0.1} vertical={false} />
             </BarChart>
         </>

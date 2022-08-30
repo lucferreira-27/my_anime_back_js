@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 import useFetch from '../../../static/hooks/useFetch';
@@ -11,14 +10,20 @@ const Panel = ({ selectContent, setSelectContent }) => {
     const { category, id } = useParams()
     const [samples, setSamples] = useState([])
     const [isEmpty, setEmpty] = useState(false)
+    const [isNewSamples, setNewSamples] = useState(false);
+    const [isChartOpen, setChartOpen] = useState(false)
     const navigate = useNavigate()
     const searchSamples = async ({ start, end, space, period }) => {
         setSamples([])
         const url = selectContent.url
-        const {results} = await get(`/wayback/search?url=${url}&start=${start}&end=${end}&space=${space}&period=${period}`)
+        console.log("[SearchSamples]", url)
+        const { results } = await get(`/wayback/search?url=${url}&start=${start}&end=${end}&space=${space}&period=${period}`)
+        console.log("[SearchSamples] Results: ", results)
         if (results.error) {
             return setEmpty(true)
         }
+        console.log("setSamples(results)setSamples(results)setSamples(results)setSamples(results)")
+        setNewSamples(true)
         setSamples(results)
     }
     const getPanelInfo = async () => {
@@ -33,13 +38,14 @@ const Panel = ({ selectContent, setSelectContent }) => {
 
     }
     useEffect(() => {
-        if (samples.length > 0)
-            console.log(samples)
-    }, [samples])
+        if (samples.length > 0) {
+            console.log("[Samples] New Samples ", samples)
+            setChartOpen(true)
+            return
+        }
+        console.log("[Samples] No sampls available")
 
-    useEffect(() => {
-        setSamples([])
-    }, [selectContent])
+    }, [samples])
 
     useEffect(() => {
         const loadContent = async () => {
@@ -57,7 +63,15 @@ const Panel = ({ selectContent, setSelectContent }) => {
     }, [error])
 
     return (
-        <PanelContext.Provider value={{ searchSamples, samples, loadingSamples: loading }}>
+        <PanelContext.Provider value={{
+            searchSamples,
+            samples,
+            loadingSamples: loading,
+            isChartOpen,
+            setChartOpen,
+            isNewSamples,
+            setNewSamples
+        }}>
             {
                 loading && !selectContent ?
                     <div className='setup-area loading-area'>
@@ -68,7 +82,7 @@ const Panel = ({ selectContent, setSelectContent }) => {
                         </div>
                     </div>
                     :
-                    <div class={`setup-area ${samples.length > 0 && !loading ? 'expand' : ''}`}>
+                    <div class={`setup-area ${isChartOpen ? 'expand' : ''}`}>
                         {selectContent && <TargetPanel key={selectContent.id} info={selectContent} />}
                     </div>
 

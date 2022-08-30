@@ -7,8 +7,11 @@ import RenderChart from './RenderChart';
 import ChartController from './ChartController';
 import ChartOptions from './ChartOptions'
 import { ChartContext } from '../../../context/ChartContext';
-import { useEffect, useState } from 'react';
-const ChartPanel = ({ selectContent, samples }) => {
+import { PanelContext } from '../../../context/PanelContext';
+import { useEffect, useState,useContext } from 'react';
+const ChartPanel = () => {
+
+    const { searchSamples, isChartOpen,samples ,setChartOpen,loadingSamples,isNewSamples, setNewSamples } = useContext(PanelContext)
 
     const [isLoadingData, setLoadingData] = useState(false)
     const { post } = useFetch("http://localhost:9000")
@@ -52,16 +55,21 @@ const ChartPanel = ({ selectContent, samples }) => {
             const controllerTypes = ["members", "score", "popularity", "ranked", "favorites"]
             const allControllers = controllerTypes.map((label) => {
                 let data = allData.reduce((prev, current) => {
-                    return [...prev, {value: current[label], date:current.date}]
+                    return [...prev, { value: current[label], date: current.date }]
                 }, [])
                 return { label, data, ...rates(data) }
             })
-            setControllers({ ...controllers, active: allControllers[0] ,all: allControllers })
+            setControllers({ ...controllers, active: allControllers[0], all: allControllers })
         }
         if (progress == 1) {
             createControllers()
         }
     }, [allData])
+
+    useEffect(() => {
+        console.log("Progress: " + progress)
+
+    }, [progress])
 
 
     const getInfoFromSamples = async () => {
@@ -72,43 +80,39 @@ const ChartPanel = ({ selectContent, samples }) => {
         while (urls.length > 0) {
             waybackUrls.push(urls.splice(0, 5));
         }
-        console.log(waybackUrls)
+
         let current = 0
         let tmA = []
 
         const fetchs = waybackUrls.map((urls) => {
             return limit(() => {
                 return post('/samples', { urls }).then((response) => {
+
                     tmA = [...tmA, ...response]
                     setResponseSamples(tmA)
                     current += urls.length
-                    console.log(`${current}/${samples.length}`);
+                    console.log(`[Download Samples Progress] ${current}/${samples.length}`);
                     setProgress(current / samples.length)
                 })
             })
         })
         await Promise.all(fetchs)
         setLoadingData(false)
+        setNewSamples(false)
     }
 
-
     useEffect(() => {
-        if (!isLoadingData) {
-             getInfoFromSamples()
-        }
-    }, [])
 
-    useEffect(() => {
-        if (!isLoadingData) {
-            console.log("All Samples Data Collect!")
-            console.log("New Sample Data", allData)
+        if(isNewSamples && !isLoadingData && samples.length > 0){
+            getInfoFromSamples()
         }
-    }, [isLoadingData])
+    }, [samples])
+
 
     const dataLoaded = (isLoadingData) => {
-        if(isLoadingData){
-            return(
-                <ProgressBarWayBack progress={progress} responseData={responseSamples} requestData={samples}/>
+        if (isLoadingData) {
+            return (
+                <ProgressBarWayBack progress={progress} responseData={responseSamples} requestData={samples} />
             )
         }
         return (<>
@@ -119,15 +123,18 @@ const ChartPanel = ({ selectContent, samples }) => {
 
 
     return (
-        <ChartContext.Provider value={{
-            activeController: controllers.active || {label: '', data:allData},
-            setActiveController: (active) => setControllers({ ...controllers, active })
-        }}>
-            <div className='panel-chart'>
-                <RenderChart />
-                {dataLoaded(isLoadingData)}
-            </div>
-        </ChartContext.Provider>
+        <>
+            {isChartOpen && <ChartContext.Provider value={{
+                activeController: controllers.active || { label: '', data: allData },
+                setActiveController: (active) => setControllers({ ...controllers, active })
+            }}>
+                <div className='panel-chart'>
+                    <RenderChart />
+                    {dataLoaded(isLoadingData)}
+                </div>
+            </ChartContext.Provider>}
+        </>
+
     )
 
 }

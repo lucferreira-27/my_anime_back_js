@@ -11,12 +11,12 @@ const RenderChart = (options) => {
     const {activeController:{label,data}} = useContext(ChartContext)
 
     const getChart = () => {
-        console.log(label,data)
+        
         switch (label) {
             case 'members':
                 return <MembersChart   data={data} options={options} />
             case 'score':
-                return <ScoreChart   data={data} options={options} />
+                return <ScoreChart  data={data} options={options} />
             case 'popularity':
                 return <MembersChart   data={data} options={options} />
             case 'ranked':

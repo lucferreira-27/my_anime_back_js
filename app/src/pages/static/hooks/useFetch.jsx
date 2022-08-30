@@ -38,7 +38,7 @@ function useFetch(url, options, dependencies = []) {
       setResponse(json);
       return json
     } catch (err) {
-      console.log(err)
+      
       setError(err);
     } finally {
       setLoading(false);

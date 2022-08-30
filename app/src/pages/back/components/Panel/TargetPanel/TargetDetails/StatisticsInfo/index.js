@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import './index.css';
 
 const StatisticsInfo = ({ info }) => {
-    console.log(info)
+    
     return (
             <div className='infos'>
                 <a class="mal-link" href={info.url} target="_blank">MyAnimeList</a>

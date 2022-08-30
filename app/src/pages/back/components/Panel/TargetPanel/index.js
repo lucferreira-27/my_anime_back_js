@@ -9,7 +9,6 @@ import './index.css';
 
 const TargetPanel = ({info}) => {
     
-    const {samples} = useContext(PanelContext)
 
     const style = {
         backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url(${info.image_url})`,
@@ -18,9 +17,10 @@ const TargetPanel = ({info}) => {
         backgroundRepeat: 'no-repeat',
     }
 
+
     return (
         <div class="setup-info" style={style}>
-            {info && <TargetDetails info={info} />}
+            {info && <TargetDetails info={info}/>}
             
         </div>
     )
