@@ -37,17 +37,24 @@ const ChartPanel = () => {
         }
         convertToController()
     }, [responseSamples])
-
     useEffect(() => {
         const createControllers = () => {
-            const rates = (content) => {
-                let fistValue = content[0].value
-                let lastValue = content[content.length - 1].value
+            const rates = (contents) => {
+                const getValue = (contents, position) =>{
+                    for(let content of position == 1 ? contents : [...contents].reverse()){
+                        if(content.value > 0){
+                            return content.value
+                        }
+                    }
+                }
+                let firstValue = getValue(contents, 1)
+                let lastValue = getValue(contents, -1)
+                console.log(firstValue,lastValue)
                 let amount = lastValue * 100
-                let diff = amount / fistValue
+                let diff = amount / firstValue
                 return {
                     currentValue: lastValue,
-                    increaseValue: (lastValue - fistValue).toFixed(2),
+                    increaseValue: (lastValue - firstValue).toFixed(2),
                     increase: diff > 100,
                     porcentage: diff - 100
                 }
@@ -63,6 +70,7 @@ const ChartPanel = () => {
         }
         if (progress == 1) {
             createControllers()
+            setProgress(0)
         }
     }, [allData])
 

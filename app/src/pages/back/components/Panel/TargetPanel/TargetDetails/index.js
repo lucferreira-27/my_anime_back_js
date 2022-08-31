@@ -33,7 +33,6 @@ const TargetDetails = ({ info }) => {
         }
         if (!info.score_users)
             getMoreInfos()
-        console.log("setChartOpen",false)    
         setChartOpen(false)
     }, [info])
 

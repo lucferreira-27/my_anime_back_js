@@ -1,9 +1,13 @@
-const SwitchButton = ({ className,controller,onClick }) => {
-    const isPositionNumber = (label)=>{
-        let str = label.toLowerCase().replace(/\W/g,'')
+import { BsFillTriangleFill } from 'react-icons/bs';
+
+
+const SwitchButton = ({ className, controller, onClick }) => {
+    const isPositionNumber = (label) => {
+        let str = label.toLowerCase().replace(/\W/g, '')
         return str == 'popularity' || str == 'ranked'
     }
     const formatValues = ({ label, increase, currentValue, increaseValue }) => {
+        console.log({ label, increase, currentValue, increaseValue })
         const toLabel = (str) => {
             let upperCase = str.charAt(0).toUpperCase() + str.slice(1)
             return upperCase + ":";
@@ -14,8 +18,12 @@ const SwitchButton = ({ className,controller,onClick }) => {
             return `${percentage.toFixed(2)}%`
         }
 
-        const formatNumbers = (str) =>{
+        const formatNumbers = (str) => {
+            if(isPositionNumber(label)){
+                return Math.abs(parseInt(str))
+            }
             let value = parseInt(str) / 1000
+
             if (value >= 1 && value < 1000) {
                 return parseInt(value) + "K"
             }
@@ -24,20 +32,28 @@ const SwitchButton = ({ className,controller,onClick }) => {
             }
             return Math.abs(isPositionNumber(label) ? parseInt(str) : str)
         }
+        const increaseValueFormat = (label) =>{
+            if(!isPositionNumber(label))
+                return `(${increase ? '+' : '-'}${formatNumbers(increaseValue)})`
+            return `(${increase ? '-' : '+'}${formatNumbers(increaseValue)})`
+        }
         increase = isPositionNumber(label) ? !increase : increase
         return {
             label: toLabel(label),
             increase,
-            increaseValue: `(${increase ? '+' : ''}${formatNumbers(increaseValue)})`,
+            increaseValue: increaseValueFormat(label),
             percentage: toPercentage(increaseValue, currentValue),
             currentValue: isPositionNumber(label) ? '#' + currentValue : formatNumbers(currentValue)
         }
     }
-    const { label, increase, percentage,currentValue,increaseValue } = formatValues(controller)
+    const { label, increase, percentage, currentValue, increaseValue } = formatValues(controller)
     return (
         <div className={className} onClick={() => onClick(controller)}>
-            <span>{label} </span><span>{currentValue}</span>
-            <p>{`${!isPositionNumber(label) ? percentage :  ''} ${increaseValue}`}</p>
+            <h4>{label} </h4><span>{currentValue}</span>
+            <p className={`rate ${increase ? 'positive' : 'negative'}`}>
+                <span className='arrow'><BsFillTriangleFill /></span>
+                {`${!isPositionNumber(label) ? percentage : ''} ${increaseValue}`}
+            </p>
         </div>
     )
 }

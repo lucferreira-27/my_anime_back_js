@@ -2,7 +2,7 @@
 import './index.css';
 import { format, parseISO, } from 'date-fns'
 import { Area, AreaChart, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
-const MembersChart = ({ data, dataKey, animationDuration }) => {
+const FavoritesChart = ({ data, dataKey, animationDuration }) => {
     const formatXAxis = (str) => {
         try {
             const date = parseISO(str)
@@ -77,4 +77,4 @@ const CustomTooltip = ({active, payload, label, data})=> {
 
 }
 
-export default MembersChart
+export default FavoritesChart

@@ -65,32 +65,7 @@
     justify-content: center;
     align-items: center;
     color: white;
-}
-.controllers h4{
-    font-weight: bold;
-    display: inline;
-}
-
-
-.rate{
-    font-weight: 600;
-}
-.rate.positive{
-    color: #1ED250
-}
-.rate .arrow svg{
-    margin-top: 5px;
-    padding-right: 5px;
-    font-size: 12px;
-    text-align:center;
-    font-weight: normal;
-}
-.rate.negative .arrow svg{
-    transform: scaleY(-1);
-}
-
-.rate.negative{
-    color: #AB2E33
+    
 
 }
 

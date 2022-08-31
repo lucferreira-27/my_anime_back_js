@@ -2,7 +2,7 @@
 import './index.css';
 import { format, parseISO, } from 'date-fns'
 import { Area, AreaChart, BarChart, Bar, LineChart, Line,LabelList, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
-const ScoreChart = ({ data, dataKey, animationDuration }) => {
+const PopularityChart = ({ data, dataKey, animationDuration }) => {
     
     const maxDataSize = 35
     
@@ -29,19 +29,9 @@ const ScoreChart = ({ data, dataKey, animationDuration }) => {
         }
 
     }
-    const formatMembers = (str) => {
-        let value = parseInt(str) / 1000
-        if (value >= 1 && value < 1000) {
-            return value + "K"
-        }
-        if (value >= 1000) {
-            return (value / 1000) + "M"
-        }
-        return str
-    }
     const formatYAxis = (str) => {
 
-        return formatMembers(str)
+        return  Math.abs(parseInt(str)) 
     }
 
     const getDomainScore = () =>{
@@ -53,16 +43,26 @@ const ScoreChart = ({ data, dataKey, animationDuration }) => {
             }
         }
        const sorted = scoreData.map(({value}) => parseFloat(value)).sort((a,b) => a - b).filter((n) => n)
-       let min = Math.floor(parseFloat((getValueByPosition(sorted,1) - 0.5).toFixed(2))) 
-       let max = Math.ceil(parseFloat((getValueByPosition(sorted,-1) + 0.5).toFixed(2)))
+       const minValue = Math.round((getValueByPosition(sorted,-1) * 2)/100)*100;
+       let max = 1
+       let min =  minValue >= 100 ? minValue : 100
         console.log(sorted)
-        console.log(min,max)
+        console.log( min,max)
         console.log(scoreData)
        return [min, max]
     }
+    const revertBars = () =>{
+        const [min,max] = getDomainScore()
+        let revertData = [...scoreData].map(data =>{
+            data.reverse_value = max - data.value
+            return data
+        })
+        console.log(revertData)
+        return revertData
+    }
     return (
         <>
-            <BarChart width={1000} height={280} data={scoreData} margin={{ top: 5, right: 10, bottom: 5, left: 30 }}>
+            <BarChart width={1000} height={280} data={revertBars()} margin={{ top: 5, right: 10, bottom: 5, left: 30 }}>
                 <defs>
                     <linearGradient id="color" x1="0" y1="0" x2="0" y2="1">
                         <stop offset={"0%"} stopColor={"#2451B7"} stopOpacity={0.4} />
@@ -73,8 +73,8 @@ const ScoreChart = ({ data, dataKey, animationDuration }) => {
                     
                     {data.length <= maxDataSize && <LabelList dataKey={"value"} position="center" style={{fill: '#fff'}}/>    }
                 </Bar>
-                <XAxis dataKey="date" tickFormatter={formatXAxis} axisLine={false} />
-                <YAxis tickFormatter={formatYAxis} axisLine={false} allowDataOverFlow={true} domain={getDomainScore()}/>
+                <XAxis dataKey="date" tickFormatter={formatXAxis} axisLine={false}/>
+                <YAxis tickFormatter={formatYAxis} axisLine={false} allowDataOverFlow={true} domain={[1,100]}/>
                 <Tooltip cursor={{fill: '#ffffff4d'}} content={<CustomTooltip />} />
                 <CartesianGrid opacity={0.1} vertical={false} />
             </BarChart>
@@ -106,14 +106,16 @@ const CustomTooltip = ({ active, payload, label, data }) => {
         }
     }
     if (active && payload) {
+        let {value,reverse_value} = payload[0].payload
+        let labelValue = value > 0 ? value : reverse_value 
         return (
             <div className='tooltip'>
                 <h4>{formatDate(label, "dd/MM/yyyy")}</h4>
-                <p>{`${payload[0].value}`}</p>
+                <p>{`#${labelValue}`}</p>
             </div>
         )
     }
 
 }
 
-export default ScoreChart
+export default PopularityChart

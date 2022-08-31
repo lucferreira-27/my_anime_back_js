@@ -14,6 +14,7 @@ const Panel = ({ selectContent, setSelectContent }) => {
     const [isChartOpen, setChartOpen] = useState(false)
     const navigate = useNavigate()
     const searchSamples = async ({ start, end, space, period }) => {
+        setChartOpen(false)
         setSamples([])
         const url = selectContent.url
         console.log("[SearchSamples]", url)
