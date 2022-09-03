@@ -1,5 +1,5 @@
 
-import './index.css';
+import '../../index';
 import { format, parseISO, } from 'date-fns'
 import { Area, AreaChart, BarChart, Bar, LineChart, Line,LabelList, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 const ScoreChart = ({ data, dataKey, animationDuration }) => {
@@ -62,7 +62,7 @@ const ScoreChart = ({ data, dataKey, animationDuration }) => {
     }
     return (
         <>
-            <BarChart width={1000} height={280} data={scoreData} margin={{ top: 5, right: 10, bottom: 5, left: 30 }}>
+            <BarChart width={1150} height={280} data={scoreData} margin={{ top: 5, right: 10, bottom: 5, left: 30 }}>
                 <defs>
                     <linearGradient id="color" x1="0" y1="0" x2="0" y2="1">
                         <stop offset={"0%"} stopColor={"#2451B7"} stopOpacity={0.4} />
@@ -71,7 +71,7 @@ const ScoreChart = ({ data, dataKey, animationDuration }) => {
                 </defs>
                 <Bar animationDuration={animationDuration} dataKey={dataKey || "value"} stroke="#2451B7" fill="url(#color)">
                     
-                    {data.length <= maxDataSize && <LabelList dataKey={"value"} position="center" style={{fill: '#fff'}}/>    }
+                    {scoreData.length <= maxDataSize && <LabelList dataKey={"value"} position="center" style={{fill: '#fff'}}/>    }
                 </Bar>
                 <XAxis dataKey="date" tickFormatter={formatXAxis} axisLine={false} />
                 <YAxis tickFormatter={formatYAxis} axisLine={false} allowDataOverFlow={true} domain={getDomainScore()}/>

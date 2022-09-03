@@ -1,7 +1,7 @@
 .setup-area {
-    display: flex;
-    justify-content: center;
+    display: block;
     height: 550px;
+    width: 100%;
     transition: height 0.5s ease-in-out;
     
 }

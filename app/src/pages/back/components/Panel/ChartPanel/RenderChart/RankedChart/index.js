@@ -1,5 +1,5 @@
 
-import './index.css';
+import '../../index.css';
 import { format, parseISO, } from 'date-fns'
 import { Area, AreaChart, BarChart, Bar, LineChart, Line,LabelList, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 const RankedChart = ({ data, dataKey, animationDuration }) => {
@@ -62,7 +62,7 @@ const RankedChart = ({ data, dataKey, animationDuration }) => {
     }
     return (
         <>
-            <BarChart width={1000} height={280} data={revertBars()} margin={{ top: 5, right: 10, bottom: 5, left: 30 }}>
+            <BarChart width={1150} height={280} data={revertBars()} margin={{ top: 5, right: 10, bottom: 5, left: 30 }}>
                 <defs>
                     <linearGradient id="color" x1="0" y1="0" x2="0" y2="1">
                         <stop offset={"0%"} stopColor={"#2451B7"} stopOpacity={0.4} />
@@ -71,10 +71,10 @@ const RankedChart = ({ data, dataKey, animationDuration }) => {
                 </defs>
                 <Bar animationDuration={animationDuration} dataKey={dataKey || "value"} stroke="#2451B7" fill="url(#color)">
                     
-                    {data.length <= maxDataSize && <LabelList dataKey={"value"} position="center" style={{fill: '#fff'}}/>    }
+                    {scoreData.length <= maxDataSize && <LabelList dataKey={"value"} position="center" style={{fill: '#fff'}}/>    }
                 </Bar>
                 <XAxis dataKey="date" tickFormatter={formatXAxis} axisLine={false}/>
-                <YAxis tickFormatter={formatYAxis} axisLine={false} allowDataOverFlow={true} domain={[1,100]}/>
+                <YAxis tickFormatter={formatYAxis} axisLine={false} allowDataOverFlow={true}/>
                 <Tooltip cursor={{fill: '#ffffff4d'}} content={<CustomTooltip />} />
                 <CartesianGrid opacity={0.1} vertical={false} />
             </BarChart>

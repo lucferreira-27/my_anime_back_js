@@ -29,7 +29,7 @@ const ChartPanel = () => {
                 let score = parseFloat(samples.score).toFixed(2)
                 let popularity = parseInt(samples.popularity)
                 let ranked = parseInt(samples.ranked)
-                let favorites = parseInt(samples.favorites.replaceAll(",", ""))
+                let favorites = samples.favorites ? parseInt(samples.favorites.replaceAll(",", "")) : null
                 let score_users = parseInt(samples.score_users)
                 return { date: timestamp, members, score, popularity, ranked, favorites, score_users }
             })

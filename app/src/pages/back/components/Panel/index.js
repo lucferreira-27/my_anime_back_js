@@ -29,11 +29,13 @@ const Panel = ({ selectContent, setSelectContent }) => {
     }
     const getPanelInfo = async () => {
         const url = `https://myanimelist.net/${category}/${id}`
+        console.log("[Panel Info]",url)
         const res = await post('/samples', { urls: [url] })
         if (!Math.floor(res.status / 100) != 2 || res[0].error) {
             const info = res[0].samples
             info.type = category
             info.id = id
+            console.log("[Panel Info]",info)
             return info
         }
 

@@ -1,5 +1,5 @@
 
-import './index.css';
+import '../../index';
 import { format, parseISO, } from 'date-fns'
 import { Area, AreaChart, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 const MembersChart = ({ data, dataKey, animationDuration }) => {
@@ -27,7 +27,7 @@ const MembersChart = ({ data, dataKey, animationDuration }) => {
         return formatMembers(str)
     }
     return (
-        <AreaChart width={1000} height={280} data={data} margin={{ top: 5, right: 10, bottom: 5, left: 0 }}>
+        <AreaChart width={1100} height={280} data={data} margin={{ top: 5, right: 10, bottom: 5, left: 0 }}>
             <defs>
                 <linearGradient id="color" x1="0" y1="0" x2="0" y2="1">
                     <stop offset={"0%"} stopColor={"#2451B7"} stopOpacity={0.4} />
@@ -66,7 +66,7 @@ const CustomTooltip = ({active, payload, label, data})=> {
         }
     }
     if(active && payload){
-        if(!payload[0]) return ""
+        if(!payload[0]) return""
         return(
             <div className='tooltip'>
                 <h4>{formatDate(label,"dd/MM/yyyy")}</h4>

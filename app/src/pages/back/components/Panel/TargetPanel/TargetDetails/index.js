@@ -30,6 +30,7 @@ const TargetDetails = ({ info }) => {
             info.ranked = res[0].samples.ranked
             info.popularity = res[0].samples.popularity
             info.members = res[0].samples.members
+            info.start_date = res[0].samples.start_date
         }
         if (!info.score_users)
             getMoreInfos()
@@ -37,9 +38,12 @@ const TargetDetails = ({ info }) => {
     }, [info])
 
     const showBackInfo = () => {
+        if(!info.start_date){
+            return
+        }
         return (<>
             <StatisticsInfo info={info} />
-            <InputBackInfo limits={{ minStart: "2011-01-01", maxEnd: "2020-01-01" }} onFormClick={(values) => { 
+            <InputBackInfo limits={{ minStart: info.start_date.slice(0,10), maxEnd: new Date().toISOString().slice(0,10)}} onFormClick={(values) => { 
                 searchSamples(values)
              }} />
         </>)
@@ -53,7 +57,7 @@ const TargetDetails = ({ info }) => {
             </div>
             <div className='statistics-area'>
                 <h4>{info.name}</h4>
-                {loading || !info ? <Loading error={error} /> : showBackInfo()}
+                {loading ? <Loading error={error} /> : showBackInfo()}
             </div>
             <ChartPanel key={info.id} isChartOpen={isChartOpen} samples={samples} loadingSamples={loadingSamples} />
         </div>

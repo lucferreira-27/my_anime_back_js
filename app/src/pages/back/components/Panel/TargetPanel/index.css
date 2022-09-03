@@ -1,11 +1,11 @@
 
 .setup-info {
-    margin-top: 25px;
+    margin:auto;
     display: flex;
     flex-direction: column;
     align-self: start;
     height: 75%;
-    width: 80%;
+    width: 95%;
     position: relative;
     transition: height 0.5s ease-in-out;
     animation: 0.5s ease-out 0s 1 slideInFromLeft;
