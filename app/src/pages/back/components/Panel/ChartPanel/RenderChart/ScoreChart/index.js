@@ -1,47 +1,26 @@
 
-import '../../index';
+import '../../index.css';
 import { format, parseISO, } from 'date-fns'
+import {formatNumbers, formatDate, formatPosition, findIncrease, removeRepeatValues } from '../../util';
 import { Area, AreaChart, BarChart, Bar, LineChart, Line,LabelList, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+import MainTooltip from '../CustomTooltips/Maintooltip';
 const ScoreChart = ({ data, dataKey, animationDuration }) => {
     
     const maxDataSize = 35
     
-    const removeRepeatValues  = (data) =>{
-        const repeatValues = data
-        const noRepeatValues = [data[0]]
-        repeatValues.forEach((content) =>{
-            
-            let found = noRepeatValues.find(repeatContent => repeatContent.value == content.value)
-            if(found){
-                return
-            }
-            noRepeatValues.push(content)
-        })
-        return noRepeatValues
-    }
+
     const scoreData = removeRepeatValues(data)
     const formatXAxis = (str) => {
         try {
-            const date = parseISO(str)
-            return format(date, "MMM, yyyy")
+            return formatDate(str, "MMM, yyyy")
         } catch (e) {
             return ""
         }
+    }
 
-    }
-    const formatMembers = (str) => {
-        let value = parseInt(str) / 1000
-        if (value >= 1 && value < 1000) {
-            return value + "K"
-        }
-        if (value >= 1000) {
-            return (value / 1000) + "M"
-        }
-        return str
-    }
     const formatYAxis = (str) => {
 
-        return formatMembers(str)
+        return formatNumbers(str)
     }
 
     const getDomainScore = () =>{
@@ -75,7 +54,7 @@ const ScoreChart = ({ data, dataKey, animationDuration }) => {
                 </Bar>
                 <XAxis dataKey="date" tickFormatter={formatXAxis} axisLine={false} />
                 <YAxis tickFormatter={formatYAxis} axisLine={false} allowDataOverFlow={true} domain={getDomainScore()}/>
-                <Tooltip cursor={{fill: '#ffffff4d'}} content={<CustomTooltip />} />
+                <Tooltip cursor={{fill: '#ffffff4d'}} content={<MainTooltip data={data} />} />
                 <CartesianGrid opacity={0.1} vertical={false} />
             </BarChart>
         </>
@@ -84,36 +63,6 @@ const ScoreChart = ({ data, dataKey, animationDuration }) => {
 
 }
 
-const CustomTooltip = ({ active, payload, label, data }) => {
 
-    const formatMembers = (str) => {
-        let value = parseInt(str) / 1000
-        if (value >= 1 && value < 1000) {
-            return parseInt(value) + "K"
-        }
-        if (value > 1000) {
-            return parseFloat(value / 1000).toFixed(2) + "M"
-        }
-        return parseFloat(str)
-    }
-
-    const formatDate = (str, template) => {
-        try {
-            const date = parseISO(str)
-            return format(date, template)
-        } catch (e) {
-            return ""
-        }
-    }
-    if (active && payload) {
-        return (
-            <div className='tooltip'>
-                <h4>{formatDate(label, "dd/MM/yyyy")}</h4>
-                <p>{`${payload[0].value}`}</p>
-            </div>
-        )
-    }
-
-}
 
 export default ScoreChart

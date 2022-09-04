@@ -8,6 +8,7 @@ import ChartController from './ChartController';
 import ChartOptions from './ChartOptions'
 import { ChartContext } from '../../../context/ChartContext';
 import { PanelContext } from '../../../context/PanelContext';
+import { parseTimestamp} from './util'
 import { useEffect, useState,useContext } from 'react';
 const ChartPanel = () => {
 
@@ -24,14 +25,16 @@ const ChartPanel = () => {
 
     useEffect(() => {
         const convertToController = () => {
-            const allDatas = responseSamples.filter(data => data.samples).map(({ samples, timestamp }, index) => {
+            const allDatas = responseSamples.filter(data => data.samples).map(({ samples, timestamp,date }, index) => {
                 let members = parseInt(samples.members.replaceAll(",", ""))
                 let score = parseFloat(samples.score).toFixed(2)
                 let popularity = parseInt(samples.popularity)
                 let ranked = parseInt(samples.ranked)
                 let favorites = samples.favorites ? parseInt(samples.favorites.replaceAll(",", "")) : null
                 let score_users = parseInt(samples.score_users)
-                return { date: timestamp, members, score, popularity, ranked, favorites, score_users }
+                let time = parseTimestamp(timestamp).getTime()
+                console.log("timestamp",timestamp,time)
+                return { date: time, members, score, popularity, ranked, favorites, score_users }
             })
             setAllData(allDatas)
         }

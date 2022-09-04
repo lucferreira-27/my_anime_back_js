@@ -1,0 +1,15 @@
+.tooltip {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.60);;
+    color: #fff;
+    border-color: none;
+    padding: 1rem;
+    box-shadow: 15px 30px 40px 5px rgba(0, 0, 0, 0.50);
+    text-align: center;
+}
+
+.tooltip p {
+    margin: 0;
+    padding: 0;
+}
