@@ -3,11 +3,16 @@ import '../../index.css';
 import {formatNumbers, formatDate, removeRepeatValues } from '../../util';
 import { BarChart, Bar,LabelList, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 import MainTooltip from '../CustomTooltips/Maintooltip';
+import { useContext } from 'react';
+import { CustomOptionsContext } from '../../../../../context/CustomOptionsContext';
+
 const RankedChart = ({ data, dataKey, animationDuration }) => {
-    
+    const { allowDuplicate } = useContext(CustomOptionsContext)
+    console.log(allowDuplicate ? removeRepeatValues(data).length : data.length)
+
     const maxDataSize = 35
     
-    const rankedData = removeRepeatValues(data)
+    const rankedData = allowDuplicate ? removeRepeatValues(data) : data
     const formatXAxis = (str) => {
         try {
             return formatDate(str, "MMM, yyyy")
@@ -33,9 +38,9 @@ const RankedChart = ({ data, dataKey, animationDuration }) => {
        const minValue = Math.round((getValueByPosition(sorted,-1) * 2)/100)*100;
        let max = 1
        let min =  minValue >= 100 ? minValue : 100
-        console.log(sorted)
-        console.log( min,max)
-        console.log(rankedData)
+        
+        
+        
        return [min, max]
     }
     const revertBars = () =>{
@@ -44,7 +49,7 @@ const RankedChart = ({ data, dataKey, animationDuration }) => {
             data.reverse_value = max - data.value
             return data
         })
-        console.log(revertData)
+        
         return revertData
     }
     return (

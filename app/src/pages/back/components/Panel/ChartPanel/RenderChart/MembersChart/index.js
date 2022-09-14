@@ -2,14 +2,25 @@
 import '../../index';
 import { formatNumbers, formatDate, parseTimestamp } from '../../util';
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis, Tooltip, ReferenceLine } from 'recharts';
+import FinishReference from '../ReferenceLine/FinishReference';
+import ReleaseReference from '../ReferenceLine/ReleaseReference';
 import MainTooltip from '../CustomTooltips/Maintooltip';
+import { CustomOptionsContext } from '../../../../../context/CustomOptionsContext';
+import { useContext } from 'react';
 
-const MembersChart = ({ data, dataKey, animationDuration }) => {
+const MembersChart = ({ info, data, dataKey, animationDuration }) => {
+    const { flagOptions } = useContext(CustomOptionsContext)
+    
+    const flagActive = (flagOptions.release || flagOptions.finish) && {
+        scale:'time',
+        type:'number'
+    };
     const formatXAxis = (str) => {
+        
         try {
-            console.log(str)
             return formatDate(str, "MMM, yyyy")
         } catch (e) {
+
             return ""
         }
     }
@@ -28,16 +39,41 @@ const MembersChart = ({ data, dataKey, animationDuration }) => {
             <Area animationDuration={animationDuration} dataKey={dataKey || "value"} stroke="#2451B7" fill="url(#color)" />
             <XAxis
                 domain={data[0] && [data[0].date, data[data.length - 1].date]}
-                scale="time"
-                type='number'
                 dataKey="date"
                 tickFormatter={formatXAxis}
-                axisLine={false} />
-            <YAxis  tickFormatter={formatYAxis} axisLine={false} />
+                axisLine={false}
+                {...flagActive}
+                />
+            <YAxis tickFormatter={formatYAxis} axisLine={false} />
             <Tooltip content={<MainTooltip data={data} chartType='area' />} />
-            <ReferenceLine x={parseTimestamp('20040510').getTime()} stroke="green" label={{ value: 'Release', fill: 'white', position: "insideTopRight" }} fill="violett" />
-            <ReferenceLine x={parseTimestamp('20120327').getTime()} stroke="red" label={{ value: 'Finish', fill: 'white', position: "insideTopRight" }} fill="violett" />
-
+            {
+                flagOptions.release
+                &&
+                <ReferenceLine x={info && new Date(info.start_date).getTime()}
+                    stroke="green"
+                    label={
+                        {
+                            value: 'Release',
+                            fill: 'white',
+                            position: "insideTopRight"
+                        }
+                    }
+                    fill="violett" />
+            }
+            {
+                flagOptions.finish
+                &&
+                <ReferenceLine x={info && new Date(info.end_date).getTime()}
+                    stroke="red"
+                    label={
+                        {
+                            value: 'Finish',
+                            fill: 'white',
+                            position: "insideTopRight"
+                        }
+                    }
+                    fill="violett" />
+            }
             <CartesianGrid opacity={0.1} vertical={false} />
         </AreaChart>
     )

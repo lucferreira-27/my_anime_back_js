@@ -19,7 +19,7 @@ const formatNumbers = (str) => {
 const formatDate = (str, template) => {
 
     const date = new Date(str)
-    console.log("date",str,date)
+    
     return format(date, template)
 
 }

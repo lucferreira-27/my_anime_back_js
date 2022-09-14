@@ -5,7 +5,7 @@ import useFetch from '../../../../static/hooks/useFetch';
 import ProgressBarWayBack from './ProgressBarWayBack';
 import RenderChart from './RenderChart';
 import ChartController from './ChartController';
-import ChartOptions from './ChartOptions'
+import ChartOptions from './CustomOptions'
 import { ChartContext } from '../../../context/ChartContext';
 import { PanelContext } from '../../../context/PanelContext';
 import { parseTimestamp} from './util'
@@ -33,7 +33,7 @@ const ChartPanel = () => {
                 let favorites = samples.favorites ? parseInt(samples.favorites.replaceAll(",", "")) : null
                 let score_users = parseInt(samples.score_users)
                 let time = parseTimestamp(timestamp).getTime()
-                console.log("timestamp",timestamp,time)
+                
                 return { date: time, members, score, popularity, ranked, favorites, score_users }
             })
             setAllData(allDatas)
@@ -52,7 +52,7 @@ const ChartPanel = () => {
                 }
                 let firstValue = getValue(contents, 1)
                 let lastValue = getValue(contents, -1)
-                console.log(firstValue,lastValue)
+                
                 let amount = lastValue * 100
                 let diff = amount / firstValue
                 return {
@@ -78,7 +78,7 @@ const ChartPanel = () => {
     }, [allData])
 
     useEffect(() => {
-        console.log("Progress: " + progress)
+        
 
     }, [progress])
 

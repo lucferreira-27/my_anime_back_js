@@ -7,9 +7,9 @@ import InputBackInfo from '../InputBackInfo'
 import useFetch from '../../../../../static/hooks/useFetch';
 import { PanelContext } from '../../../../context/PanelContext';
 import ChartPanel from '../../ChartPanel';
-const TargetDetails = ({ info }) => {
+const TargetDetails = () => {
 
-    const { searchSamples, isChartOpen,samples ,setChartOpen,loadingSamples } = useContext(PanelContext)
+    const { searchSamples, isChartOpen,samples ,setChartOpen,loadingSamples,info } = useContext(PanelContext)
     const { post, loading, error } = useFetch("http://localhost:9000")
     const formatSimpleInfo = () => {
         let { start_year, status } = info
@@ -31,8 +31,10 @@ const TargetDetails = ({ info }) => {
             info.popularity = res[0].samples.popularity
             info.members = res[0].samples.members
             info.start_date = res[0].samples.start_date
+            info.end_date = res[0].samples.end_date
+
         }
-        if (!info.score_users)
+        if (!info.score_users || !info.end_date)
             getMoreInfos()
         setChartOpen(false)
     }, [info])
@@ -59,7 +61,7 @@ const TargetDetails = ({ info }) => {
                 <h4>{info.name}</h4>
                 {loading ? <Loading error={error} /> : showBackInfo()}
             </div>
-            <ChartPanel key={info.id} isChartOpen={isChartOpen} samples={samples} loadingSamples={loadingSamples} />
+            <ChartPanel info={info} isChartOpen={isChartOpen} samples={samples} loadingSamples={loadingSamples} />
         </div>
     )
 

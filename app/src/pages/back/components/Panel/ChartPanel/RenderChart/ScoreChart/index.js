@@ -4,12 +4,14 @@ import { format, parseISO, } from 'date-fns'
 import {formatNumbers, formatDate, formatPosition, findIncrease, removeRepeatValues } from '../../util';
 import { Area, AreaChart, BarChart, Bar, LineChart, Line,LabelList, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 import MainTooltip from '../CustomTooltips/Maintooltip';
+import { useContext } from 'react';
+import { CustomOptionsContext } from '../../../../../context/CustomOptionsContext';
 const ScoreChart = ({ data, dataKey, animationDuration }) => {
-    
+    const { allowDuplicate } = useContext(CustomOptionsContext)
     const maxDataSize = 35
     
 
-    const scoreData = removeRepeatValues(data)
+    const scoreData = allowDuplicate ? removeRepeatValues(data) : data
     const formatXAxis = (str) => {
         try {
             return formatDate(str, "MMM, yyyy")
@@ -34,9 +36,9 @@ const ScoreChart = ({ data, dataKey, animationDuration }) => {
        const sorted = scoreData.map(({value}) => parseFloat(value)).sort((a,b) => a - b).filter((n) => n)
        let min = Math.floor(parseFloat((getValueByPosition(sorted,1) - 0.5).toFixed(2))) 
        let max = Math.ceil(parseFloat((getValueByPosition(sorted,-1) + 0.5).toFixed(2)))
-        console.log(sorted)
-        console.log(min,max)
-        console.log(scoreData)
+        
+        
+        
        return [min, max]
     }
     return (

@@ -13,7 +13,7 @@ const MainTooltip = ({ active, payload, label, data, chartType }) => {
             </div>
         )
     }catch(e){
-        console.log(e,label)
+        
         return ""
     }
 

@@ -8,7 +8,7 @@ const SwitchButton = ({ className, controller, onClick }) => {
         return str == 'popularity' || str == 'ranked'
     }
     const formatValues = ({ label, increase, currentValue, increaseValue }) => {
-        console.log({ label, increase, currentValue, increaseValue })
+        
         const toLabel = (str) => {
             let upperCase = str.charAt(0).toUpperCase() + str.slice(1)
             return upperCase + ":";

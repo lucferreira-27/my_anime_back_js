@@ -2,12 +2,15 @@
 import '../../index.css';
 import {formatNumbers, formatDate, removeRepeatValues } from '../../util';
 import {BarChart, Bar,LabelList, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+import { useContext } from 'react';
 import MainTooltip from '../CustomTooltips/Maintooltip';
+import { CustomOptionsContext } from '../../../../../context/CustomOptionsContext';
 const PopularityChart = ({ data, dataKey, animationDuration }) => {
-    
+    const { allowDuplicate } = useContext(CustomOptionsContext)
     const maxDataSize = 35
-    
-    const popularityData = removeRepeatValues(data)
+    console.log(allowDuplicate ? removeRepeatValues(data).length : data.length)
+
+    const popularityData = allowDuplicate ? removeRepeatValues(data) : data
     const formatXAxis = (str) => {
         try {
             return formatDate(str, "MMM, yyyy")
@@ -33,9 +36,9 @@ const PopularityChart = ({ data, dataKey, animationDuration }) => {
        const minValue = Math.round((getValueByPosition(sorted,-1) * 2)/100)*100;
        let max = 1
        let min =  minValue >= 100 ? minValue : 100
-        console.log(sorted)
-        console.log( min,max)
-        console.log(popularityData)
+        
+        
+        
        return [min, max]
     }
     const revertBars = () =>{
@@ -44,7 +47,7 @@ const PopularityChart = ({ data, dataKey, animationDuration }) => {
             data.reverse_value = max - data.value
             return data
         })
-        console.log(revertData)
+        
         return revertData
     }
     return (

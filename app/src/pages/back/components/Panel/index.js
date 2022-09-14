@@ -23,7 +23,7 @@ const Panel = ({ selectContent, setSelectContent }) => {
         if (results.error) {
             return setEmpty(true)
         }
-        console.log("setSamples(results)setSamples(results)setSamples(results)setSamples(results)")
+        
         setNewSamples(true)
         setSamples(results)
     }
@@ -68,6 +68,7 @@ const Panel = ({ selectContent, setSelectContent }) => {
     return (
         <PanelContext.Provider value={{
             searchSamples,
+            info: selectContent,
             samples,
             loadingSamples: loading,
             isChartOpen,
@@ -86,7 +87,7 @@ const Panel = ({ selectContent, setSelectContent }) => {
                     </div>
                     :
                     <div class={`setup-area ${isChartOpen ? 'expand' : ''}`}>
-                        {selectContent && <TargetPanel key={selectContent.id} info={selectContent} />}
+                        {selectContent && <TargetPanel key={selectContent.id}  />}
                     </div>
 
             }
