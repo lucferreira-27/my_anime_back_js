@@ -76,7 +76,11 @@ const getValue = (text, value) => {
 }
 
 const getOthersValues = ((document, attributes) => {
-    const cleanUp = () => document.querySelectorAll('sup').forEach(el => el.parentNode.removeChild(el))
+    const cleanUp = () => {
+        document.querySelectorAll('sup').forEach(el => el.parentNode.removeChild(el))
+        document.querySelectorAll("[itemprop='ratingCount']").forEach(el => el.parentNode.removeChild(el))
+    }
+
     cleanUp()
     const values = []
     const textAttributes = document.querySelectorAll('.dark_text')
@@ -141,7 +145,15 @@ const getScoreValues = (document) => {
     try {
         let values = []
         let [el] = Array.from(document.querySelectorAll('.dark_text')).filter(el => el.textContent.includes("Score:"))
-        const scoreValues = el.parentElement.textContent.match(/(\d\.\d{2})|(?<=by\s)\d+/g)
+        let textContent = el.parentElement.textContent
+        if(textContent.includes('N/A') || textContent.includes('0.00')){
+            values.push(
+                { text: 'score',  value: null },
+                { text: 'score_users', value: null }
+            )
+            return values
+        }
+        const scoreValues = textContent.match(/(\d\.\d{2})|(?<=by\s)(\d+,?)+/g)
         values.push(
             { text: 'score', value: scoreValues[0] || '' },
             { text: 'score_users', value: scoreValues[1] || '' }
